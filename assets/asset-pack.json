@@ -6,11 +6,7 @@
                 "type": "animation",
                 "key": "animations"
             },
-            {
-                "url": "assets/UI/bg.png",
-                "type": "image",
-                "key": "bg"
-            },
+
             {
                 "url": "assets/creature-sheet.png",
                 "frameConfig": {
@@ -37,11 +33,7 @@
                 "type": "spritesheet",
                 "key": "crystal-qubodup-ccby3-16-green"
             },
-            {
-                "url": "assets/dino.png",
-                "type": "image",
-                "key": "dino"
-            },
+
             {
                 "url": "assets/Player/Dude_Monster_Death_8.png",
                 "frameConfig": {
@@ -81,6 +73,32 @@
                 },
                 "type": "spritesheet",
                 "key": "dude-walk"
+            },
+            {
+                "url": "assets/Abilities/bluecircle/Explosion_blue_circle1-0.png",
+                "frameConfig": {
+                    "frameWidth": 256,
+                    "frameHeight": 256,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Explosion_blue_circle"
+            },
+            {
+                "url": "assets/Abilities/blueoval/Explosion_blue_oval1-0.png",
+                "frameConfig": {
+                    "frameWidth": 256,
+                    "frameHeight": 256,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Explosion_blue_oval1-0"
             },
             {
                 "url": "assets/UI/green.png",

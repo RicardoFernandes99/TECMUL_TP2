@@ -63,23 +63,18 @@ export default class Level extends Phaser.Scene {
 		this.physics.add.overlap(this.player,this.crystals,(player, crystal) => {
 			player.gainXp(crystal.getData('xp') || 10);
 			crystal.destroy();
-		},
-		null,
-		this
-		);
-        this.physics.add.overlap(
-            this.player.projectiles,
-            this.slimes,
-            (rock, slime) => {
-                slime.takeDamage(10);
-                rock.destroy();
-            }
-        );
+		},null,this);
 
-        this.physics.add.overlap(
-            this.player,
+            this.physics.add.overlap(
+            [ this.player.projectiles, this.player.explosions ],
             this.slimes,
-            (_player, slime) => {
+            (proj, slime) => {
+                slime.takeDamage(100);
+                proj.destroy();
+            }
+            );
+
+        this.physics.add.overlap(this.player,this.slimes,(_player, slime) => {
                 slime.attack();
             }
         );
