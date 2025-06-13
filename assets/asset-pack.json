@@ -25,6 +25,51 @@
                 "key": "dino"
             },
             {
+                "url": "assets/Player/Dude_Monster_Death_8.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-death"
+            },
+            {
+                "url": "assets/Player/Dude_Monster_Hurt_4.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-hurt"
+            },
+            {
+                "url": "assets/Player/Dude_Monster_Throw_4.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-throw"
+            },
+            {
+                "url": "assets/Player/Dude_Monster_Walk_6.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-walk"
+            },
+            {
+                "url": "assets/Player/Rock1.png",
+                "type": "image",
+                "key": "rock"
+            },
+            {
                 "url": "assets/Slime/Slime3_Attack_full.png",
                 "frameConfig": {
                     "frameWidth": 64,
@@ -63,51 +108,6 @@
                 },
                 "type": "spritesheet",
                 "key": "slime-walk"
-            },
-            {
-                "url": "assets/Dude_Monster/Dude_Monster_Walk_6.png",
-                "frameConfig": {
-                    "frameWidth": 32,
-                    "frameHeight": 32,
-                    "endFrame": -1
-                },
-                "type": "spritesheet",
-                "key": "dude-walk"
-            },
-            {
-                "url": "assets/Dude_Monster/Dude_Monster_Throw_4.png",
-                "frameConfig": {
-                    "frameWidth": 32,
-                    "frameHeight": 32,
-                    "endFrame": -1
-                },
-                "type": "spritesheet",
-                "key": "dude-throw"
-            },
-            {
-                "url": "assets/Dude_Monster/Dude_Monster_Hurt_4.png",
-                "frameConfig": {
-                    "frameWidth": 32,
-                    "frameHeight": 32,
-                    "endFrame": -1
-                },
-                "type": "spritesheet",
-                "key": "dude-hurt"
-            },
-            {
-                "url": "assets/Dude_Monster/Dude_Monster_Death_8.png",
-                "frameConfig": {
-                    "frameWidth": 32,
-                    "frameHeight": 32,
-                    "endFrame": -1
-                },
-                "type": "spritesheet",
-                "key": "dude-death"
-            },
-            {
-                "url": "assets/Dude_Monster/Rock1.png",
-                "type": "image",
-                "key": "rock"
             }
         ]
     },

@@ -1,3 +1,5 @@
+import HealthBar from "./HealthBar.js";
+
 export default class Slime extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene, x, y) {
@@ -9,14 +11,17 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
 
         // Setup slime properties
         this.hp = 100;
+        this.maxHp = 100;
         this.speed = 50;
         this.isDead = false;
         this.isAttacking = false;
 
         this.play("slime-walk");
+        this.healthBar = new HealthBar(scene, this);
 
         this.body.setVelocity(Phaser.Math.Between(-this.speed, this.speed), Phaser.Math.Between(-this.speed, this.speed));
         this.body.setCollideWorldBounds(true);
+        
     }
 
     // Example method: take damage
@@ -47,17 +52,21 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
                 this.isAttacking = false;
                 this.anims.play("slime-walk", true);
             });
+
+            this.scene.player.hurt(10); 
         }
 
-    // Example method: die
     die() {
         this.isDead = true;
+        this.body.setVelocity(0, 0);
+
         this.play("slime-death", true);
 
-        // Optional: remove after death animation
         this.on("animationcomplete", () => {
             this.destroy();
         });
+        this.healthBar.destroy();
+
     }
 
     // Simple update method → ex: make it follow player
@@ -81,5 +90,7 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
             // Flip sprite based on direction
             this.flipX = this.body.velocity.x < 0;
         }
+        this.healthBar.update();
+
     }
 }

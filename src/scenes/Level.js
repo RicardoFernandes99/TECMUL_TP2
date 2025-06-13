@@ -5,6 +5,8 @@
 /* START-USER-IMPORTS */
 import Player from "../classes/Player.js"; // Import Player class
 import Slime from "../classes/Slime.js";   // Import Slime class
+import Spawner from "../classes/Spawner.js"; // Import Spawner class
+
 /* END-USER-IMPORTS */
 
 export default class Level extends Phaser.Scene {
@@ -35,6 +37,9 @@ export default class Level extends Phaser.Scene {
     /** @type {Phaser.GameObjects.Group} */
     slimes;
 
+    /** @type {Spawner} */
+    spawner;
+
     /* START-USER-CODE */
 
     create() {
@@ -54,7 +59,7 @@ export default class Level extends Phaser.Scene {
         this.limitesLayer.setCollisionByExclusion([-1]);
 
         // Create player → using Player class
-        this.player = new Player(this, 169, 409, "creature-sheet");
+        this.player = new Player(this, 169, 409);
 
         // Set camera bounds to match map size
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -66,6 +71,7 @@ export default class Level extends Phaser.Scene {
 
         // Setup input
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.attackKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // Enable physics collisions between player and Limites layer
         this.physics.add.collider(this.player, this.limitesLayer);
@@ -73,25 +79,33 @@ export default class Level extends Phaser.Scene {
         // --- SLIMES SETUP ---
 
         // Create group of slimes
-        this.slimes = this.add.group();
+		this.slimes = this.physics.add.group();
 
-        // Example: spawn 1 slime
-        const slime = new Slime(this, 500, 300);
-        this.slimes.add(slime);
+        // Create Spawner → pass scene, group, limites layer
+        this.spawner = new Spawner(this, this.slimes, this.limitesLayer);
 
-        // Enable collision slime vs limites
-        this.physics.add.collider(slime, this.limitesLayer);
+		// Player projectiles hit slimes
+		this.physics.add.overlap(this.player.projectiles, this.slimes, (rock, slime) => {
+			slime.takeDamage(10);
+			rock.destroy();    // Destroy rock after hit
+		});
 
-        // Optional → collision slime vs player (trigger attack on overlap)
-        this.physics.add.overlap(slime, this.player, () => {
-            slime.attack();
-        });
+        // Player first then slime 
+		this.physics.add.overlap(this.player,this.slimes,(playerObj, slimeObj) => {
+			slimeObj.attack();
+		}
+		);
     }
 
     update() {
 
         // Player movement
         this.player.update(this.cursors);
+
+        // Player attack → SPACE key → pass cursors for direction
+        if (Phaser.Input.Keyboard.JustDown(this.attackKey)) {
+            this.player.attack(this.cursors);
+        }
 
         // Clamp player inside map bounds
         this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
@@ -102,6 +116,8 @@ export default class Level extends Phaser.Scene {
             slime.update(this.player);
         });
     }
+
+	
 
     /* END-USER-CODE */
 }
