@@ -24,7 +24,6 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
         
     }
 
-    // Example method: take damage
     takeDamage(amount) {
         if (this.isDead) return;
 
@@ -33,7 +32,13 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
         if (this.hp <= 0) {
             this.die();
         } else {
-            this.play("slime-hurt", true);
+            this.anims.play("slime-hurt", true);
+
+            // once that animation completes, go back to walking
+            this.once("animationcomplete-slime-hurt", () => {
+                    this.anims.play("slime-walk", true);
+
+            });
         }
     }
 

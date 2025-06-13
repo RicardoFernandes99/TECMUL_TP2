@@ -1,143 +1,86 @@
-// You can write more code here
-
-/* START OF COMPILED CODE */
-
-/* START-USER-IMPORTS */
-import Player  from "../classes/Player.js";   // Import Player class
-import Slime   from "../classes/Slime.js";    // Import Slime class
-import Spawner from "../classes/Spawner.js";  // Import Spawner class
-/* END-USER-IMPORTS */
+import Player from "../classes/Player.js";
+import Slime from "../classes/Slime.js";
+import Spawner from "../classes/Spawner.js";
 
 export default class Level extends Phaser.Scene {
-
-    constructor() {
-        super("Level");
-
-        /* START-USER-CTR-CODE */
-        // nothing to do here
-        /* END-USER-CTR-CODE */
-    }
-
-    /** @returns {void} */
-    editorCreate() {
-        this.events.emit("scene-awake");
-    }
-
-    /* START-USER-CODE */
-
-    create() {
-
-        const map = this.make.tilemap({ key: 'level-map' });
-        this.map = map;
-        const tileset = map.addTilesetImage('tiles', 'tiles');
-        this.dungeonLayer = map.createLayer('Dungeon', tileset, 0, 0);
-        this.limitesLayer = map.createLayer('Limites', tileset, 0, 0);
-        this.limitesLayer.setCollisionByExclusion([-1]);
-
-        this.player = new Player(this, 169, 409);
-
-        this.cameras.main
-            .setBounds(0, 0, map.widthInPixels, map.heightInPixels)
-            .startFollow(this.player)
-            .setZoom(1);
-
-        this.editorCreate();
-
-        this.keys = this.input.keyboard.addKeys({
-            up:    Phaser.Input.Keyboard.KeyCodes.W,
-            down:  Phaser.Input.Keyboard.KeyCodes.S,
-            left:  Phaser.Input.Keyboard.KeyCodes.A,
-            right: Phaser.Input.Keyboard.KeyCodes.D
-        });
-
-        this.input.on("pointerdown", pointer => {
-            this.player.attack(pointer);
-        });
-
-        this.physics.add.collider(this.player, this.limitesLayer);
-
-        this.slimes = this.physics.add.group();
-        this.spawner = new Spawner(this, this.slimes, this.limitesLayer);
-		this.crystals = this.physics.add.group();
-
-		this.physics.add.overlap(this.player,this.crystals,(player, crystal) => {
-			player.gainXp(crystal.getData('xp') || 10);
-			crystal.destroy();
-		},null,this);
-
-            this.physics.add.overlap(
-  this.player.projectiles,
-  this.slimes,
-  (rock, slime) => {
-    slime.takeDamage(10);
-    rock.destroy();
+  constructor() {
+    super("Level");
   }
-);
 
-this.physics.add.overlap(
-  this.player.explosions,
-  this.slimes,
-  (explosion, _slime) => {
-    // only trigger once
-    if (!explosion.isTravelling) return;
-    explosion.isTravelling = false;
+  create() {
+    const map = this.make.tilemap({ key: 'level-map' });
+    this.map = map;
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    const tileset = map.addTilesetImage("Tilesheet", "tiles");
 
-    // stop it in mid‐air
-    explosion.body.setVelocity(0);
+    this.bgLayer      = map.createLayer("BG",     tileset, 0, 0);
+    this.collideLayer = map.createLayer("Colide", tileset, 0, 0);
+    this.collideLayer.setCollisionByExclusion([-1]);
 
-    // 1) Look up the full animation data
-    const animData   = this.anims.get("Explosion_blue_oval");
-    const totalFrames = animData.frames.length;
+    this.player = new Player(this, 169, 409);
 
-    // 2) Play the “blast” portion: frames 1 → last
-    explosion.anims.play({
-      key:        "Explosion_blue_oval",
-      startFrame: 1,
-      endFrame:   totalFrames - 1
+    this.cameras.main
+      .setBounds(0, 0, map.widthInPixels, map.heightInPixels)
+      .startFollow(this.player)
+      .setZoom(1);
+
+    this.keys = this.input.keyboard.addKeys({
+      up:    Phaser.Input.Keyboard.KeyCodes.W,
+      down:  Phaser.Input.Keyboard.KeyCodes.S,
+      left:  Phaser.Input.Keyboard.KeyCodes.A,
+      right: Phaser.Input.Keyboard.KeyCodes.D
+    });
+    this.input.on("pointerdown", pointer => this.player.attack(pointer));
+
+    this.slimes    = this.physics.add.group();
+    this.spawner   = new Spawner(this, this.slimes, this.collideLayer);
+    this.crystals  = this.physics.add.group();
+
+    this.physics.add.collider(this.player,this.collideLayer);
+    this.physics.add.collider(this.slimes,this.collideLayer);
+    this.physics.add.overlap(this.player,this.crystals, (p, c) => {
+      p.gainXp(c.getData('xp') || 10);
+      c.destroy();
+    });
+    this.physics.add.overlap(this.player.projectiles, this.slimes, (rock, slime) => {
+      slime.takeDamage(10);
+      rock.destroy();
+    });
+    
+    
+    this.physics.add.overlap(this.player.explosions, this.slimes, (explosion, _s) => {
+      if (!explosion.isTravelling) return;
+      explosion.isTravelling = false;
+      explosion.body.setVelocity(0);
+      const animData    = this.anims.get("Explosion_blue_oval");
+      explosion.anims.play({
+        key:        "Explosion_blue_oval",
+        startFrame: 0,
+        endFrame:   animData.frames.length - 1
+      });
+      const AOE_RADIUS = 64;
+      const DAMAGE     = 50;
+      this.slimes.children.iterate(s => {
+        const d = Phaser.Math.Distance.Between(explosion.x, explosion.y,s.x,s.y);
+        if (d <= AOE_RADIUS) {
+          s.takeDamage(DAMAGE);
+        }
+      });
+      explosion.once("animationcomplete-Explosion_blue_oval", () => {
+        explosion.destroy();
+      });
     });
 
-    // 3) Deal AOE damage
-    const AOE_RADIUS = 64,
-          DAMAGE     = 50;
-    this.slimes.children.iterate(s => {
-      const d = Phaser.Math.Distance.Between(
-        explosion.x, explosion.y,
-        s.x,         s.y
-      );
-      if (d <= AOE_RADIUS) {
-        s.takeDamage(DAMAGE);
-      }
+
+    this.physics.add.overlap(this.player, this.slimes, (_p, slime) => {
+      slime.attack();
     });
-
-    // 4) When the blast animation finishes, destroy it
-    explosion.once(
-      `animationcomplete-Explosion_blue_oval`,
-      () => explosion.destroy()
-    );
   }
-);
 
-        this.physics.add.overlap(this.player,this.slimes,(_player, slime) => {
-                slime.attack();
-            }
-        );
-    }
-
-    update() {
-
-        this.player.update(this.keys);
-
-        this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
-        this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.map.heightInPixels);
-
-        this.slimes.children.iterate(slime => {
-            slime.update(this.player);
-        });
-    }
-
-    /* END-USER-CODE */
+  update() {
+    this.player.update(this.keys);
+    this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
+    this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.map.heightInPixels);
+    this.slimes.children.iterate(slime => slime.update(this.player));
+  }
 }
-
-/* END OF COMPILED CODE */
-
-// You can write more code here

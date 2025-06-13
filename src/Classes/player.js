@@ -22,10 +22,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.isDead         = false;
 
     // two separate pools
-    this.projectiles = this.scene.physics.add.group();           // rocks
-    this.explosions  = this.scene.physics.add.group({            // explosion projectiles
+    this.projectiles = this.scene.physics.add.group();           
+    this.explosions = this.scene.physics.add.group({
       defaultKey: "Explosion_blue_oval",
-      maxSize: 10
+      maxSize: 10,
+      classType: Phaser.Physics.Arcade.Sprite
     });
 
     this.healthBar = new HealthBar(scene, this);
@@ -36,10 +37,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.isDead) return;
 
     this.body.setVelocity(0);
-    if (keys.left.isDown)      { this.body.setVelocityX(-this.speed); this.flipX = true; }
-    else if (keys.right.isDown){ this.body.setVelocityX(this.speed);  this.flipX = false; }
-    if (keys.up.isDown)        { this.body.setVelocityY(-this.speed); }
-    else if (keys.down.isDown) { this.body.setVelocityY(this.speed);  }
+    if (keys.left.isDown){ 
+    this.body.setVelocityX(-this.speed); 
+    this.flipX = true; 
+    }
+    else if (keys.right.isDown){
+       this.body.setVelocityX(this.speed);
+         this.flipX = false; 
+         }
+    if (keys.up.isDown)        
+    { this.body.setVelocityY(-this.speed); 
+    }
+    else if (keys.down.isDown) {
+       this.body.setVelocityY(this.speed); 
+        }
 
     const animKey = this.anims.currentAnim?.key;
     const playing = this.anims.isPlaying;
@@ -95,26 +106,33 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.time.delayedCall(2000, () => rock.destroy());
   }
 
-  throwExplosion(pointer) {
-  // 1) grab one from the pool
+throwExplosion(pointer) {
+  // 1) grab from the pool (uses defaultKey:"Explosion_blue_oval" that you already loaded)
   const exp = this.explosions.get(this.x, this.y);
   if (!exp) return;
 
-  // 2) mark it as “in flight” and show only frame 0
-  exp.setActive(true).setVisible(true);
+  // 2) activate & position
+  exp
+    .setActive(true)
+    .setVisible(true);
   exp.body.reset(this.x, this.y);
-  exp.setFrame(0);            // show the first frame only
-  exp.isTravelling = true;    // custom flag
 
-  // 3) launch it
+  // 3) mark as travelling and give it a visible frame (frame 0 should be a solid projectile frame)
+  exp.isTravelling = true;
+  exp.setFrame(0);
+
+  // 4) shoot it toward the pointer
   const world = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
   const dir = new Phaser.Math.Vector2(world.x - this.x, world.y - this.y).normalize();
   exp.body.setVelocity(dir.x * 400, dir.y * 400);
 
-  // 4) when it leaves the world, just destroy
+  // 5) if it flies off-screen, destroy it
   exp.body.onWorldBounds = true;
   exp.once("worldbounds", () => exp.destroy());
+
+  // (no overlap logic here—your scene’s existing this.physics.add.overlap on player.explosions will fire)
 }
+
 
   hurt(damage) {
     if (this.isDead) return;
