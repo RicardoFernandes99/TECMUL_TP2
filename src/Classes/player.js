@@ -96,22 +96,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   throwExplosion(pointer) {
-    const exp = this.explosions.get(this.x, this.y);
-    if (!exp) return;
+  // 1) grab one from the pool
+  const exp = this.explosions.get(this.x, this.y);
+  if (!exp) return;
 
-    exp.setActive(true)
-       .setVisible(true)
-       .body.reset(this.x, this.y);
+  // 2) mark it as “in flight” and show only frame 0
+  exp.setActive(true).setVisible(true);
+  exp.body.reset(this.x, this.y);
+  exp.setFrame(0);            // show the first frame only
+  exp.isTravelling = true;    // custom flag
 
-    exp.play("Explosion_blue_oval");
+  // 3) launch it
+  const world = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
+  const dir = new Phaser.Math.Vector2(world.x - this.x, world.y - this.y).normalize();
+  exp.body.setVelocity(dir.x * 400, dir.y * 400);
 
-    const world = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
-    const dir   = new Phaser.Math.Vector2(world.x - this.x, world.y - this.y).normalize();
-    exp.body.setVelocity(dir.x * 400, dir.y * 400);
-
-    // return to pool on animation complete
-    exp.once("animationcomplete-Explosion_blue_oval", () => exp.destroy());
-  }
+  // 4) when it leaves the world, just destroy
+  exp.body.onWorldBounds = true;
+  exp.once("worldbounds", () => exp.destroy());
+}
 
   hurt(damage) {
     if (this.isDead) return;

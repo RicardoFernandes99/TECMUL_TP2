@@ -66,13 +66,56 @@ export default class Level extends Phaser.Scene {
 		},null,this);
 
             this.physics.add.overlap(
-            [ this.player.projectiles, this.player.explosions ],
-            this.slimes,
-            (proj, slime) => {
-                slime.takeDamage(100);
-                proj.destroy();
-            }
-            );
+  this.player.projectiles,
+  this.slimes,
+  (rock, slime) => {
+    slime.takeDamage(10);
+    rock.destroy();
+  }
+);
+
+this.physics.add.overlap(
+  this.player.explosions,
+  this.slimes,
+  (explosion, _slime) => {
+    // only trigger once
+    if (!explosion.isTravelling) return;
+    explosion.isTravelling = false;
+
+    // stop it in mid‐air
+    explosion.body.setVelocity(0);
+
+    // 1) Look up the full animation data
+    const animData   = this.anims.get("Explosion_blue_oval");
+    const totalFrames = animData.frames.length;
+
+    // 2) Play the “blast” portion: frames 1 → last
+    explosion.anims.play({
+      key:        "Explosion_blue_oval",
+      startFrame: 1,
+      endFrame:   totalFrames - 1
+    });
+
+    // 3) Deal AOE damage
+    const AOE_RADIUS = 64,
+          DAMAGE     = 50;
+    this.slimes.children.iterate(s => {
+      const d = Phaser.Math.Distance.Between(
+        explosion.x, explosion.y,
+        s.x,         s.y
+      );
+      if (d <= AOE_RADIUS) {
+        s.takeDamage(DAMAGE);
+      }
+    });
+
+    // 4) When the blast animation finishes, destroy it
+    explosion.once(
+      `animationcomplete-Explosion_blue_oval`,
+      () => explosion.destroy()
+    );
+  }
+);
 
         this.physics.add.overlap(this.player,this.slimes,(_player, slime) => {
                 slime.attack();
