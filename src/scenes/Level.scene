@@ -1,0 +1,40 @@
+{
+    "id": "01aefa93-6044-4159-8358-7e91310aa05f",
+    "sceneType": "SCENE",
+    "settings": {
+        "snapEnabled": true,
+        "snapWidth": 64,
+        "snapHeight": 64,
+        "exportClass": true,
+        "autoImport": true,
+        "importFileExtension": true,
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "Level",
+        "borderWidth": 1280,
+        "borderHeight": 720
+    },
+    "displayList": [
+        {
+            "type": "Sprite",
+            "id": "93645442-9405-4454-b8e8-8de3f81d248e",
+            "label": "Player",
+            "scope": "CLASS",
+            "texture": {
+                "key": "creature-sheet",
+                "frame": 0
+            },
+            "x": 169,
+            "y": 409,
+            "animationPlayMethod": 1,
+            "animationKey": "Player"
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}

@@ -1,0 +1,122 @@
+{
+    "section1": {
+        "files": [
+            {
+                "url": "assets/animations.json",
+                "type": "animation",
+                "key": "animations"
+            },
+            {
+                "url": "assets/creature-sheet.png",
+                "frameConfig": {
+                    "frameWidth": 24,
+                    "frameHeight": 24,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "creature-sheet"
+            },
+            {
+                "url": "assets/dino.png",
+                "type": "image",
+                "key": "dino"
+            },
+            {
+                "url": "assets/Slime/Slime3_Attack_full.png",
+                "frameConfig": {
+                    "frameWidth": 64,
+                    "frameHeight": 64,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "slime-attack"
+            },
+            {
+                "url": "assets/Slime/Slime3_Death_full.png",
+                "frameConfig": {
+                    "frameWidth": 64,
+                    "frameHeight": 64,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "slime-death"
+            },
+            {
+                "url": "assets/Slime/Slime3_Hurt_full.png",
+                "frameConfig": {
+                    "frameWidth": 64,
+                    "frameHeight": 64,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "slime-hurt"
+            },
+            {
+                "url": "assets/Slime/Slime3_Walk_full.png",
+                "frameConfig": {
+                    "frameWidth": 64,
+                    "frameHeight": 64,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "slime-walk"
+            },
+            {
+                "url": "assets/Dude_Monster/Dude_Monster_Walk_6.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-walk"
+            },
+            {
+                "url": "assets/Dude_Monster/Dude_Monster_Throw_4.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-throw"
+            },
+            {
+                "url": "assets/Dude_Monster/Dude_Monster_Hurt_4.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-hurt"
+            },
+            {
+                "url": "assets/Dude_Monster/Dude_Monster_Death_8.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "endFrame": -1
+                },
+                "type": "spritesheet",
+                "key": "dude-death"
+            },
+            {
+                "url": "assets/Dude_Monster/Rock1.png",
+                "type": "image",
+                "key": "rock"
+            }
+        ]
+    },
+    "meta": {
+        "app": "Phaser Editor 2D - Asset Pack Editor",
+        "contentType": "phasereditor2d.pack.core.AssetContentType",
+        "url": "https://phasereditor2d.com",
+        "version": 2,
+        "showAllFilesInBlocks": false,
+        "visible": true
+    }
+}

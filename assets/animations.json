@@ -1,0 +1,553 @@
+{
+    "anims": [
+        {
+            "key": "Player",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "creature-sheet",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "creature-sheet",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "creature-sheet",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "creature-sheet",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "repeat": -1,
+            "randomFrame": false
+        },
+        {
+            "key": "slime-walk",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "slime-walk",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-walk",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-walk",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-walk",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-walk",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-walk",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-walk",
+                    "frame": 6,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-walk",
+                    "frame": 7,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "repeat": -1,
+            "randomFrame": false
+        },
+        {
+            "key": "slime-hurt",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "slime-hurt",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 6,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 7,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 8,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 9,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 10,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 11,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 12,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 13,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 14,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 15,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 16,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 17,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 18,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-hurt",
+                    "frame": 19,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "randomFrame": false
+        },
+        {
+            "key": "slime-death",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "slime-death",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 6,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 7,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 8,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 9,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 10,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 11,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 12,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 13,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 14,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 15,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 16,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 17,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 18,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 19,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 20,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 21,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 22,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 23,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 24,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 25,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 26,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 27,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 28,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 29,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 30,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 31,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 32,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 33,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 34,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 35,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 36,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 37,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 38,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-death",
+                    "frame": 39,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "randomFrame": false
+        },
+        {
+            "key": "slime-attack",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "slime-attack",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 6,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 7,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 8,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "slime-attack",
+                    "frame": 10,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "randomFrame": false
+        }
+    ],
+    "globalTimeScale": 1,
+    "meta": {
+        "app": "Phaser Editor 2D v3",
+        "contentType": "Phaser v3 Animations"
+    },
+    "settings": {
+        "sourceLang": "JAVA_SCRIPT",
+        "esModule": false,
+        "generateCode": false
+    }
+}
