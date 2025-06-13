@@ -3,10 +3,9 @@
 /* START OF COMPILED CODE */
 
 /* START-USER-IMPORTS */
-import Player from "../classes/Player.js"; // Import Player class
-import Slime from "../classes/Slime.js";   // Import Slime class
-import Spawner from "../classes/Spawner.js"; // Import Spawner class
-
+import Player  from "../classes/Player.js";   // Import Player class
+import Slime   from "../classes/Slime.js";    // Import Slime class
+import Spawner from "../classes/Spawner.js";  // Import Spawner class
 /* END-USER-IMPORTS */
 
 export default class Level extends Phaser.Scene {
@@ -15,109 +14,88 @@ export default class Level extends Phaser.Scene {
         super("Level");
 
         /* START-USER-CTR-CODE */
-        // Write your code here.
+        // nothing to do here
         /* END-USER-CTR-CODE */
     }
 
     /** @returns {void} */
     editorCreate() {
-
         this.events.emit("scene-awake");
     }
-
-    /** @type {Player} */
-    player;
-
-    /** @type {Phaser.Tilemaps.TilemapLayer} */
-    dungeonLayer;
-
-    /** @type {Phaser.Tilemaps.TilemapLayer} */
-    limitesLayer;
-
-    /** @type {Phaser.GameObjects.Group} */
-    slimes;
-
-    /** @type {Spawner} */
-    spawner;
 
     /* START-USER-CODE */
 
     create() {
 
-        // Load the tilemap
         const map = this.make.tilemap({ key: 'level-map' });
         this.map = map;
-
-        // Load the tileset image
         const tileset = map.addTilesetImage('tiles', 'tiles');
-
-        // Create map layers
         this.dungeonLayer = map.createLayer('Dungeon', tileset, 0, 0);
-
-        // Create the Limites layer and enable collision
         this.limitesLayer = map.createLayer('Limites', tileset, 0, 0);
         this.limitesLayer.setCollisionByExclusion([-1]);
 
-        // Create player → using Player class
         this.player = new Player(this, 169, 409);
 
-        // Set camera bounds to match map size
-        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-        this.cameras.main.startFollow(this.player);
-        this.cameras.main.setZoom(1);
+        this.cameras.main
+            .setBounds(0, 0, map.widthInPixels, map.heightInPixels)
+            .startFollow(this.player)
+            .setZoom(1);
 
-        // Call editorCreate() AFTER map → for UI if needed
         this.editorCreate();
 
-        // Setup input
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.attackKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.keys = this.input.keyboard.addKeys({
+            up:    Phaser.Input.Keyboard.KeyCodes.W,
+            down:  Phaser.Input.Keyboard.KeyCodes.S,
+            left:  Phaser.Input.Keyboard.KeyCodes.A,
+            right: Phaser.Input.Keyboard.KeyCodes.D
+        });
 
-        // Enable physics collisions between player and Limites layer
+        this.input.on("pointerdown", pointer => {
+            this.player.attack(pointer);
+        });
+
         this.physics.add.collider(this.player, this.limitesLayer);
 
-        // --- SLIMES SETUP ---
-
-        // Create group of slimes
-		this.slimes = this.physics.add.group();
-
-        // Create Spawner → pass scene, group, limites layer
+        this.slimes = this.physics.add.group();
         this.spawner = new Spawner(this, this.slimes, this.limitesLayer);
+		this.crystals = this.physics.add.group();
 
-		// Player projectiles hit slimes
-		this.physics.add.overlap(this.player.projectiles, this.slimes, (rock, slime) => {
-			slime.takeDamage(10);
-			rock.destroy();    // Destroy rock after hit
-		});
-
-        // Player first then slime 
-		this.physics.add.overlap(this.player,this.slimes,(playerObj, slimeObj) => {
-			slimeObj.attack();
-		}
+		this.physics.add.overlap(this.player,this.crystals,(player, crystal) => {
+			player.gainXp(crystal.getData('xp') || 10);
+			crystal.destroy();
+		},
+		null,
+		this
 		);
+        this.physics.add.overlap(
+            this.player.projectiles,
+            this.slimes,
+            (rock, slime) => {
+                slime.takeDamage(10);
+                rock.destroy();
+            }
+        );
+
+        this.physics.add.overlap(
+            this.player,
+            this.slimes,
+            (_player, slime) => {
+                slime.attack();
+            }
+        );
     }
 
     update() {
 
-        // Player movement
-        this.player.update(this.cursors);
+        this.player.update(this.keys);
 
-        // Player attack → SPACE key → pass cursors for direction
-        if (Phaser.Input.Keyboard.JustDown(this.attackKey)) {
-            this.player.attack(this.cursors);
-        }
-
-        // Clamp player inside map bounds
         this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
         this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.map.heightInPixels);
 
-        // Update each slime
         this.slimes.children.iterate(slime => {
             slime.update(this.player);
         });
     }
-
-	
 
     /* END-USER-CODE */
 }

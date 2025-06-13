@@ -40,6 +40,7 @@ export default class Spawner {
 
         // Make slime stronger based on level
         slime.hp = 50 + this.level * 20;
+        slime.maxHp = slime.hp;
         slime.speed = 40 + this.level * 5;
 
         this.slimeGroup.add(slime);

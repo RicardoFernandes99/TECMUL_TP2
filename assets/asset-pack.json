@@ -7,6 +7,11 @@
                 "key": "animations"
             },
             {
+                "url": "assets/UI/bg.png",
+                "type": "image",
+                "key": "bg"
+            },
+            {
                 "url": "assets/creature-sheet.png",
                 "frameConfig": {
                     "frameWidth": 24,
@@ -18,6 +23,19 @@
                 },
                 "type": "spritesheet",
                 "key": "creature-sheet"
+            },
+            {
+                "url": "assets/Slime/crystal-qubodup-ccby3-16-green.png",
+                "frameConfig": {
+                    "frameWidth": 16,
+                    "frameHeight": 16,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "crystal-qubodup-ccby3-16-green"
             },
             {
                 "url": "assets/dino.png",
@@ -63,6 +81,16 @@
                 },
                 "type": "spritesheet",
                 "key": "dude-walk"
+            },
+            {
+                "url": "assets/UI/green.png",
+                "type": "image",
+                "key": "green"
+            },
+            {
+                "url": "assets/UI/red.png",
+                "type": "image",
+                "key": "red"
             },
             {
                 "url": "assets/Player/Rock1.png",

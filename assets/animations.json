@@ -707,6 +707,64 @@
             "frameRate": 24,
             "skipMissedFrames": true,
             "randomFrame": false
+        },
+        {
+            "key": "Exp_drop",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 6,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "crystal-qubodup-ccby3-16-green",
+                    "frame": 7,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 12,
+            "skipMissedFrames": true,
+            "repeat": -1,
+            "randomFrame": false
         }
     ],
     "globalTimeScale": 1,

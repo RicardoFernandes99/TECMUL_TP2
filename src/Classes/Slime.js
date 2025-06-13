@@ -62,7 +62,13 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
 
         this.play("slime-death", true);
 
-        this.on("animationcomplete", () => {
+        this.once("animationcomplete-slime-death", () => {
+            const crystal = this.scene.crystals.create(this.x, this.y, "Exp_drop");
+            
+            crystal.setData("xp", 10);         
+            
+            crystal.play("Exp_drop");
+
             this.destroy();
         });
         this.healthBar.destroy();

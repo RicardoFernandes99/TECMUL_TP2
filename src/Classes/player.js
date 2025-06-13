@@ -1,150 +1,125 @@
 import HealthBar from "./HealthBar.js";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y) {
+    super(scene, x, y, "dude-walk", 0);
 
-    constructor(scene, x, y) {
-        super(scene, x, y, "dude-walk", 0);
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
+    this.scene = scene;
 
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
+    this.setCollideWorldBounds(true);
 
-        this.scene = scene;
+    this.hp = 100;
+    this.maxHp = 100;
+    this.speed = 200;
+    this.xp = 0;
+    this.isAttacking = false;
+    this.attackCooldown = false;
+    this.isDead = false;
 
-        this.setCollideWorldBounds(true);
+    this.projectiles = this.scene.physics.add.group();
 
-        this.hp = 100;
-        this.maxHp = 100;
-        this.level = 1;
-        this.speed = 200;
-        this.isAttacking = false;
-        this.isDead = false;
-        this.attackCooldown = false;
+    this.healthBar = new HealthBar(scene, this);
 
-        this.projectiles = this.scene.physics.add.group();
+    this.play("dude-walk");
+  }
 
-        this.play("dude-walk");
-        this.healthBar = new HealthBar(scene, this);
+  update(keys) {
+    if (this.isDead) return;
 
+    this.body.setVelocity(0);
+    if (keys.left.isDown) {
+      this.body.setVelocityX(-this.speed);
+      this.flipX = true;
+    } else if (keys.right.isDown) {
+      this.body.setVelocityX(this.speed);
+      this.flipX = false;
+    }
+    if (keys.up.isDown) {
+      this.body.setVelocityY(-this.speed);
+    } else if (keys.down.isDown) {
+      this.body.setVelocityY(this.speed);
     }
 
-    update(cursors) {
-        if (this.isDead || this.isAttacking) return;
+    const key   = this.anims.currentAnim?.key;
+    const playing = this.anims.isPlaying;
+    const moving  = this.body.velocity.length() > 0;
 
-        this.body.setVelocity(0);
-
-        if (cursors.left.isDown) {
-            this.body.setVelocityX(-this.speed);
-            this.flipX = true;
-        } else if (cursors.right.isDown) {
-            this.body.setVelocityX(this.speed);
-            this.flipX = false;
-        }
-
-        if (cursors.up.isDown) {
-            this.body.setVelocityY(-this.speed);
-        } else if (cursors.down.isDown) {
-            this.body.setVelocityY(this.speed);
-        }
-
-        if (this.body.velocity.length() > 0 && !this.anims.isPlaying) {
-            this.play("dude-walk", true);
-        } else if (this.body.velocity.length() === 0 && !this.isAttacking) {
-            this.play("dude-walk", true);
-        }
-        this.healthBar.update();
-
+    if ((key === "dude-throw" || key === "dude-hurt") && playing) {
+    }
+    else if (moving) {
+      this.play("dude-walk", true);
+    } else {
+      this.play("dude-walk", true);
     }
 
-    attack(cursors) {
-        if (this.isDead || this.attackCooldown) return;
+    this.healthBar.update();
+  }
 
-        this.isAttacking = true;
-        this.attackCooldown = true;
-        this.currentCursors = cursors;
+  attack(pointer) {
+    if (this.isDead || this.attackCooldown) return;
 
-        this.play("dude-throw");
-        this.once("animationcomplete-dude-throw", () => {
-            this.throwRock(this.currentCursors);
-            this.isAttacking = false;
-            this.attackCooldown = false;
-            this.play("dude-walk", true);
-        });
+    this.isAttacking    = true;
+    this.attackCooldown = true;
+
+    this.play("dude-throw");
+
+    this.once("animationcomplete-dude-throw", () => {
+      this.throwRock(pointer);
+      this.isAttacking    = false;
+      this.attackCooldown = false;
+      this.play("dude-walk", true);
+    });
+  }
+
+  throwRock(pointer) {
+    const rock = this.projectiles.create(this.x, this.y, "rock");
+    rock.setCollideWorldBounds(true);
+    rock.body.onWorldBounds = true;
+
+    const world = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
+    const dir = new Phaser.Math.Vector2(world.x - this.x, world.y - this.y).normalize();
+
+    const speed = 400;
+    rock.body.setVelocity(dir.x * speed, dir.y * speed);
+
+    this.scene.time.delayedCall(2000, () => rock.destroy());
+  }
+
+  hurt(damage) {
+    if (this.isDead) return;
+
+    this.hp -= damage;
+
+    this.off("animationcomplete-dude-throw");
+    this.isAttacking = false;
+    this.attackCooldown = false;
+
+    if (this.anims.currentAnim?.key !== "dude-hurt") {
+      this.play("dude-hurt");
     }
 
-    throwRock(cursors) {
-        const rock = this.projectiles.create(this.x, this.y, "rock");
-        rock.setCollideWorldBounds(true);
-        rock.body.onWorldBounds = true;
-
-        const speed = 400;
-        let velocityX = 0;
-        let velocityY = 0;
-
-        if (cursors.left.isDown) {
-            velocityX = -1;
-        } else if (cursors.right.isDown) {
-            velocityX = 1;
-        }
-
-        if (cursors.up.isDown) {
-            velocityY = -1;
-        } else if (cursors.down.isDown) {
-            velocityY = 1;
-        }
-
-        // If no direction pressed → throw in facing direction (left/right)
-        if (velocityX === 0 && velocityY === 0) {
-            velocityX = this.flipX ? -1 : 1;
-            velocityY = 0;
-        }
-
-        // Normalize vector → so diagonal speed is correct
-        const length = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-        velocityX = (velocityX / length) * speed;
-        velocityY = (velocityY / length) * speed;
-
-        rock.body.setVelocity(velocityX, velocityY);
-
-        // Optional: destroy after some time
-        this.scene.time.delayedCall(2000, () => {
-            rock.destroy();
-        });
+    if (this.hp <= 0) {
+      this.die();
     }
+  }
 
-    hurt(damage) {
-        if (this.isDead) return;
+  die() {
+    this.isDead = true;
+    this.body.setVelocity(0);
 
-        // Always deduct HP
-        this.hp -= damage;
+    this.off("animationcomplete-dude-throw");
 
-        // Stop any pending throw-rock listener
-        this.off("animationcomplete-dude-throw");
+    this.play("dude-death");
+    this.once("animationcomplete-dude-death", () => {
+      this.disableBody(true, true);
+      this.healthBar.destroy();
+    });
+  }
 
-        // Only start 'dude-hurt' if it's not already playing
-        const cur = this.anims.currentAnim;
-        if (!this.anims.isPlaying || cur.key !== "dude-hurt") {
-            this.play("dude-hurt");
-        }
-
-        // If HP has fallen to zero or below, die
-        if (this.hp <= 0) {
-            this.die();
-        }
-    }
-
-    die() {
-        this.isDead = true;
-        this.body.setVelocity(0);
-
-        // Remove any pending throw listener to avoid bug
-        this.off("animationcomplete-dude-throw");
-
-        this.play("dude-death");
-
-        this.once("animationcomplete-dude-death", () => {
-            this.disableBody(true, true);
-        });
-        this.healthBar.destroy();
-
+    gainXp(amount) {
+    this.xp = (this.xp || 0) + amount;
+    console.log("Gained XP:", amount, "Total:", this.xp);
     }
 }
