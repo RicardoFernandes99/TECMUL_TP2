@@ -40,21 +40,29 @@ export default class RewardSystem {
           player.pickupRange += 20;
         }
       },
-      // Spell rewards
+      lifesteal: {
+        label: "Lifesteal +5%",
+        icon: "lifesteal", 
+        type: "stat",
+        apply: (player) => {
+          player.lifesteal += 5; 
+        }
+      },
+
       explosion: {
         label: "Unlock Explosion Spell",
-        icon: "BlueOval", // Abilities asset
+        icon: "BlueOval", 
         type: "spell",
         spellName: "explosion",
         unlockLevel: 2,
         apply: (player) => {
           player.unlockSpell("explosion");
-          player.currentSpell = "explosion"; // Auto-switch to new spell
+          player.currentSpell = "explosion"; 
         }
       },
         explosionTwoColors: {
         label: "Unlock Two-Color Explosion",
-        icon: "ExplosionTwoColors", // Two-color explosion asset
+        icon: "ExplosionTwoColors", 
         type: "spell",
         spellName: "explosionTwoColors",
         unlockLevel: 4,
@@ -85,6 +93,10 @@ export default class RewardSystem {
     available.push({ key: 'speed', ...this.rewardTypes.speed });
     available.push({ key: 'damage', ...this.rewardTypes.damage });
     available.push({ key: 'magnet', ...this.rewardTypes.magnet });
+
+    if (this.player.lifesteal < 60) {
+      available.push({ key: 'lifesteal', ...this.rewardTypes.lifesteal });
+    }
 
     if (this.player.level >= 2 && !this.player.spells.explosion?.unlocked) {
       available.push({ key: 'explosion', ...this.rewardTypes.explosion });

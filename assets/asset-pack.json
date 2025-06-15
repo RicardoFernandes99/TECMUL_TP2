@@ -157,6 +157,11 @@
                 "key": "Health"
             },
             {
+                "url": "assets/UI/lifesteal.png",
+                "type": "image",
+                "key": "lifesteal"
+            },
+            {
                 "url": "assets/UI/Magnet.png",
                 "type": "image",
                 "key": "Magnet"

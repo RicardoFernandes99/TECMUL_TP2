@@ -21,7 +21,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.xp = 0;
     this.level = 1;
     this.xpToNext = 10;    
-    this.baseDamage = 10;    
+    this.baseDamage = 10;  
+    this.lifesteal = 0;
+
     this.spells = {
       rock: { unlocked: true, baseDamage: 10, aoeRadius: 0 },
       explosion: { unlocked: false, baseDamage: 30, aoeRadius: 64 },
@@ -256,7 +258,8 @@ throwExplosion(pointer) {
     });
   }
     collectCrystal(crystal) {
-    this.gainXp(10);    crystal.destroy();
+    this.gainXp(10);    
+    crystal.destroy();
   }
 
   gainXp(amount) {
@@ -307,4 +310,12 @@ throwExplosion(pointer) {
     return spell ? spell.aoeRadius : 0;
   }
 
+  lifestealRegeneration() {
+    if (this.lifesteal <= 0 || this.hp >= this.maxHp) return;
+
+    const lifestealAmount = Math.floor(this.baseDamage * (this.lifesteal / 100));
+    this.hp = Math.min(this.hp + lifestealAmount, this.maxHp);
+    this.healthBar.update();
+  }
+  
 }
