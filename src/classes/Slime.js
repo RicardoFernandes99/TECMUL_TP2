@@ -75,8 +75,9 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
             crystal.play("Exp_drop");
 
             this.destroy();
+            
         });
-        this.healthBar.destroy();
+        this.healthBar.destroy(); // remove sem esperar pela animacao
 
     }
 

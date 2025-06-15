@@ -344,126 +344,6 @@
                     "frame": 19,
                     "duration": 0,
                     "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 20,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 21,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 22,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 23,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 24,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 25,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 26,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 27,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 28,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 29,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 30,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 31,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 32,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 33,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 34,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 35,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 36,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 37,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 38,
-                    "duration": 0,
-                    "keyframe": false
-                },
-                {
-                    "key": "slime-death",
-                    "frame": 39,
-                    "duration": 0,
-                    "keyframe": false
                 }
             ],
             "frameRate": 24,
@@ -1000,6 +880,256 @@
                 },
                 {
                     "key": "Explosion_two_colors1-0",
+                    "frame": 11,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "randomFrame": false
+        },
+        {
+            "key": "pink-death",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 6,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Death_8",
+                    "frame": 7,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "randomFrame": false
+        },
+        {
+            "key": "pink-hurt",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "Pink_Monster_Hurt_4",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Hurt_4",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Hurt_4",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Hurt_4",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "randomFrame": false
+        },
+        {
+            "key": "pink-throw",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "Pink_Monster_Throw_4",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Throw_4",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Throw_4",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Throw_4",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "randomFrame": false
+        },
+        {
+            "key": "pink-walk",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "Pink_Monster_Walk_6",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Walk_6",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Walk_6",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Walk_6",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Walk_6",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Pink_Monster_Walk_6",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                }
+            ],
+            "frameRate": 24,
+            "skipMissedFrames": true,
+            "repeat": -1,
+            "randomFrame": false
+        },
+        {
+            "key": "Nuclear_explosion",
+            "type": "frame",
+            "frames": [
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 0,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 1,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 2,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 3,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 4,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 5,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 6,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 7,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 8,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 9,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
+                    "frame": 10,
+                    "duration": 0,
+                    "keyframe": false
+                },
+                {
+                    "key": "Nuclear_explosion1-0",
                     "frame": 11,
                     "duration": 0,
                     "keyframe": false

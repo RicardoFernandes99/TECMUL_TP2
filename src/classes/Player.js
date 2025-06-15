@@ -2,45 +2,85 @@ import HealthBar from "./HealthBar.js";
 import RewardSystem from "./RewardSystem.js";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
-    super(scene, x, y, "dude-walk", 0);
+  constructor(scene, x, y, selectedCharacter = 'dude') {
+    const initialTexture = selectedCharacter === 'dude' ? 'dude-walk' : 'pink-walk';
+    super(scene, x, y, initialTexture, 0);
+    
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.scene = scene;
-    this.setCollideWorldBounds(true);   
-    this.hp       = 100;
-    this.maxHp    = 100;
-    this.speed    = 200;
-    this.xp       = 0;
-    this.level    = 1;
+    this.selectedCharacter = selectedCharacter;
+    
+    this.setupCharacterAnimations();
+    
+    this.setCollideWorldBounds(true);
+    this.hp = 100;
+    this.maxHp = 100;
+    this.speed = 200;
+    this.pickupRange = 80; 
+    this.xp = 0;
+    this.level = 1;
     this.xpToNext = 10;    
     this.baseDamage = 10;    
     this.spells = {
-      rock: { unlocked: true, cooldown: 0, baseDamage: 10, aoeRadius: 0 },
-      explosion: { unlocked: false, cooldown: 0, baseDamage: 30, aoeRadius: 64 },
-      explosionTwoColors: { unlocked: false, cooldown: 0, baseDamage: 40, aoeRadius: 80 },
+      rock: { unlocked: true, baseDamage: 10, aoeRadius: 0 },
+      explosion: { unlocked: false, baseDamage: 30, aoeRadius: 64 },
+      explosionTwoColors: { unlocked: false, baseDamage: 40, aoeRadius: 80 },
+      nuclearexplosion: { unlocked: false, baseDamage: 100, aoeRadius: 128 }
     };
     this.currentSpell = 'rock';
 
     this.isAttacking    = false;
     this.attackCooldown = false;
     this.isDead         = false;    
-    this.projectiles = this.scene.physics.add.group();           
+    this.projectiles = this.scene.physics.add.group();             
     this.explosions = this.scene.physics.add.group({
       defaultKey: "Explosion_blue_oval1-0", // Need this for setup,override in the throwExplosion
-      maxSize: 10,
       classType: Phaser.Physics.Arcade.Sprite
-    });
+    });    
     this.healthBar = new HealthBar(scene, this);
     this.rewardSystem = new RewardSystem(this);
-    this.play("dude-walk");
+    
+    this.play(this.getAnimationKey('walk'));
+  }    
+
+  setupCharacterAnimations() {
+    this.characterAnims = {
+      dude: {
+        walk: 'dude-walk',
+        hurt: 'dude-hurt', 
+        throw: 'dude-throw',
+        death: 'dude-death'
+      },
+      dudette: {
+        walk: 'pink-walk',
+        hurt: 'pink-hurt',
+        throw: 'pink-throw', 
+        death: 'pink-death'
+      }
+    }[this.selectedCharacter];
+  }
+
+  getAnimationKey(animationType) {
+    const animKey = this.characterAnims[animationType];
+    
+    if (!this.scene.anims.exists(animKey)) {
+
+      if (this.selectedCharacter === 'dudette') {
+        const fallbackKey = animKey.replace('pink', 'dude');
+        return this.scene.anims.exists(fallbackKey) ? fallbackKey : 'dude-walk';
+      }
+    }
+    
+    return animKey;
   }
 
   update(keys) {
-    if (this.isDead) return;   
+    if (this.isDead) return;     
     if (keys.key1 && keys.key1.isDown) this.switchSpell('rock');
     if (keys.key2 && keys.key2.isDown) this.switchSpell('explosion');
     if (keys.key3 && keys.key3.isDown) this.switchSpell('explosionTwoColors');
+    if (keys.key4 && keys.key4.isDown) this.switchSpell('nuclearexplosion');
 
     this.body.setVelocity(0);
     if (keys.left.isDown){ 
@@ -56,44 +96,42 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
     else if (keys.down.isDown) {
        this.body.setVelocityY(this.speed); 
-        }
-
-    const animKey = this.anims.currentAnim?.key;
+        }    const animKey = this.anims.currentAnim?.key;
     const playing = this.anims.isPlaying;
     const moving  = this.body.velocity.length() > 0;
 
-    if ((animKey === "dude-throw" || animKey === "dude-hurt") && playing) {
-    }    else {
+    const throwAnimKey = this.getAnimationKey('throw');
+    const hurtAnimKey = this.getAnimationKey('hurt');
+    
+    if ((animKey === throwAnimKey || animKey === hurtAnimKey) && playing) {
+    }
+    else {
       if (moving) {
-        this.play("dude-walk", true);
+        this.play(this.getAnimationKey('walk'), true);
       } else {
         this.anims.stop();
-        this.setFrame(0);
-      }
-    }
-
+        this.setFrame(0);      }    }    
     this.healthBar.update();
-  }
+    
+    this.checkCrystalPickup();
+  }  
   attack(pointer) {
-    if (this.isDead || this.attackCooldown) return;
-
+    if (this.isDead || this.attackCooldown || this.isAttacking) return;
+    
     const spell = this.spells[this.currentSpell];
-    if (!spell || !spell.unlocked || spell.cooldown > 0) return;
+    if (!spell || !spell.unlocked) return;
 
-    this.isAttacking    = true;
-    this.attackCooldown = true;
+    this.isAttacking = true;
+    this.attackCooldown = true;    
+    const throwAnimKey = this.getAnimationKey('throw');
+    this.play(throwAnimKey);
 
-    // play the same throw anim on the player
-    this.play("dude-throw");
-
-    this.once("animationcomplete-dude-throw", () => {
-      // Cast the current spell
+    this.once(`animationcomplete-${throwAnimKey}`, () => {
       this.castSpell(this.currentSpell, pointer);
 
-      // reset state & return to walk
-      this.isAttacking    = false;
+      this.play(this.getAnimationKey('walk'), true);
+      this.isAttacking = false;
       this.attackCooldown = false;
-      this.play("dude-walk", true);
     });
   }
   castSpell(spellName, pointer) {
@@ -105,9 +143,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.throwExplosion(pointer);
         break;
       case 'explosionTwoColors':
-        this.throwExplosion(pointer); // Uses same function as explosion
+        this.throwExplosion(pointer); 
         break;
-      // Add more spells here
+      case 'nuclearexplosion':
+        this.throwExplosion(pointer); 
+        break;
     }
   }
 
@@ -125,82 +165,114 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
 throwExplosion(pointer) {
-  // 1) grab from the pool (uses defaultKey:"Explosion_blue_oval" that you already loaded)
   const exp = this.explosions.get(this.x, this.y);
   if (!exp) return;
-
-  // 2) Set the appropriate texture and spell type based on current spell
   let textureKey;
   if (this.currentSpell === 'explosionTwoColors') {
     textureKey = 'Explosion_two_colors1-0';
-    exp.spellType = 'explosionTwoColors'; // Track which spell this explosion is from
+    exp.spellType = 'explosionTwoColors';
+  } else if (this.currentSpell === 'nuclearexplosion') {
+    textureKey = 'Nuclear_explosion1-0';
+    exp.spellType = 'nuclearexplosion';
   } else {
     textureKey = 'Explosion_blue_oval1-0';
-    exp.spellType = 'explosion'; // Track which spell this explosion is from
+    exp.spellType = 'explosion';
   }
   exp.setTexture(textureKey);
 
-  // 3) activate & position
   exp
     .setActive(true)
     .setVisible(true);
-  exp.body.reset(this.x, this.y);// 3) mark as travelling and give it a visible frame (frame 0 should be a solid projectile frame)
+  exp.body.reset(this.x, this.y);
   exp.isTravelling = true;
   exp.anims.stop();
   exp.setFrame(0);
 
-  // 4) shoot it toward the pointer
   const world = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
   const dir = new Phaser.Math.Vector2(world.x - this.x, world.y - this.y).normalize();
   exp.body.setVelocity(dir.x * 400, dir.y * 400);
 
-  // 5) if it flies off-screen, destroy it
-  exp.body.onWorldBounds = true;
-  exp.once("worldbounds", () => exp.destroy());
+  this.scene.time.delayedCall(2000, () => {
+    if (exp && exp.active) {
+      exp.destroy();
+    }
+  });
 
-  // (no overlap logic here—your scene’s existing this.physics.add.overlap on player.explosions will fire)
 }
-
 
   hurt(damage) {
     if (this.isDead) return;
     this.hp -= damage;
-    this.off("animationcomplete-dude-throw");
+    const throwAnimKey = this.getAnimationKey('throw');
+    this.off(`animationcomplete-${throwAnimKey}`);
     this.isAttacking    = false;
-    this.attackCooldown = false;
-    if (this.anims.currentAnim?.key !== "dude-hurt") {
-      this.play("dude-hurt");
+    this.attackCooldown = false;    
+    const hurtAnimKey = this.getAnimationKey('hurt');
+    if (this.anims.currentAnim?.key !== hurtAnimKey) {
+      this.play(hurtAnimKey);
     }
     if (this.hp <= 0) this.die();
-  }
-
+  }  
   die() {
     this.isDead = true;
     this.body.setVelocity(0);
-    this.off("animationcomplete-dude-throw");
-    this.play("dude-death");
-    this.once("animationcomplete-dude-death", () => {
+    const throwAnimKey = this.getAnimationKey('throw');
+    this.off(`animationcomplete-${throwAnimKey}`);    const deathAnimKey = this.getAnimationKey('death');
+    this.play(deathAnimKey);
+    this.once(`animationcomplete-${deathAnimKey}`, () => {
       this.disableBody(true, true);
       this.healthBar.destroy();
-    });  }
+    });
+  }
+
+  checkCrystalPickup() {
+    if (!this.scene.crystals) return;
+    
+    this.scene.crystals.children.iterate(crystal => {
+      if (!crystal || !crystal.active) return;
+      
+      const distance = Phaser.Math.Distance.Between(
+        this.x, this.y,
+        crystal.x, crystal.y
+      );
+      if (distance <= this.pickupRange && distance > 20) { 
+        const angle = Phaser.Math.Angle.Between(crystal.x, crystal.y, this.x, this.y);
+        
+        const magnetSpeed = 500;
+        
+        if (crystal.body) {
+          crystal.body.setVelocity(
+            Math.cos(angle) * magnetSpeed,
+            Math.sin(angle) * magnetSpeed
+          );
+        }
+      } else if (distance <= 20) {
+        this.collectCrystal(crystal);
+      } else {
+        if (crystal.body) {
+          crystal.body.setVelocity(0, 0);
+        }
+      }
+    });
+  }
+    collectCrystal(crystal) {
+    this.gainXp(10);    crystal.destroy();
+  }
 
   gainXp(amount) {
     this.xp += amount;
 
     if (this.xp >= this.xpToNext) {
-      this.xp -= this.xpToNext;      // carry over extra XP
-      this.level++;                  // bump level
-      this.xpToNext = Math.floor(this.xpToNext * 1.2);  // scale next threshold
+      this.xp -= this.xpToNext;     
+      this.level++;                 
+      this.xpToNext = Math.floor(this.xpToNext * 1.2);  
 
-      // Get available rewards from reward system
-      const rewards = this.rewardSystem.getAvailableRewards(3);
+      const rewards = this.rewardSystem.getAvailableRewards(3);      
 
-      // Trigger the LevelUp UI:
-      //   1) pause the main Level scene
-      //   2) launch the LevelUp overlay, passing in reward choices
       this.scene.scene.pause("Level");
       this.scene.scene.launch("LevelUp", {
         rewards: rewards,
+        playerLevel: this.level,
         onSelect: choice => {
           this.rewardSystem.applyReward(choice.key || choice.rewardKey);
         }
@@ -210,15 +282,15 @@ throwExplosion(pointer) {
   unlockSpell(spellName) {
     if (this.spells[spellName]) {
       this.spells[spellName].unlocked = true;
-      // Trigger skill bar update if it exists
       if (this.scene.skillBar) {
         this.scene.skillBar.updateSkillSlots();
       }
     }
-  }  switchSpell(spellName) {
+  }  
+  
+  switchSpell(spellName) {
     if (this.spells[spellName] && this.spells[spellName].unlocked) {
       this.currentSpell = spellName;
-      // Trigger skill bar update if it exists
       if (this.scene.skillBar) {
         this.scene.skillBar.updateSkillSlots();
       }
@@ -235,11 +307,4 @@ throwExplosion(pointer) {
     return spell ? spell.aoeRadius : 0;
   }
 
-  getCurrentSpellDamage() {
-    return this.getSpellDamage(this.currentSpell);
-  }
-
-  getCurrentSpellAOERadius() {
-    return this.getSpellAOERadius(this.currentSpell);
-  }
 }

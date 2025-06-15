@@ -66,23 +66,25 @@ export default class SkillBar {
       const spellName = spellNames[index];
       const spell = spellName ? this.player.spells[spellName] : null;
         if (spell && spell.unlocked) {
-        // Show the skill
-        slot.spellName = spellName;
+
+          slot.spellName = spellName;
         slot.icon.setVisible(true);
-          // Set icon based on spell type
+
         switch(spellName) {
           case 'rock':
             slot.icon.setTexture('rock');
             break;
           case 'explosion':
-            slot.icon.setTexture('BlueOval'); // Use same as reward system
+            slot.icon.setTexture('BlueOval'); 
             break;
           case 'explosionTwoColors':
-            slot.icon.setTexture('ExplosionTwoColors'); // Two-color explosion asset
+            slot.icon.setTexture('ExplosionTwoColors'); 
             break;
-          // Add more spell icons here
+          case 'nuclearexplosion':
+            slot.icon.setTexture('NuclearExplosion'); 
+            break;  
           default:
-            slot.icon.setTexture('rock'); // fallback
+            slot.icon.setTexture('rock'); 
         }
         
         // Fit icon to square with more padding to avoid covering the number

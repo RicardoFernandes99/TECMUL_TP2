@@ -8,8 +8,10 @@ export default class Level extends Phaser.Scene {
   constructor() {
     super("Level");
   }
-
-  create() {
+  create(data) {
+    // Get selected character (default to 'dude' if none provided)
+    this.selectedCharacter = data.selectedCharacter || 'dude';
+    
     const map = this.make.tilemap({ key: 'level-map' });
     this.map = map;
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -19,7 +21,7 @@ export default class Level extends Phaser.Scene {
     this.collideLayer = map.createLayer("Colide", tileset, 0, 0);
     this.collideLayer.setCollisionByExclusion([-1]);
 
-    this.player = new Player(this, 169, 409);
+    this.player = new Player(this, 169, 409, this.selectedCharacter);
 
     this.cameras.main
       .setBounds(0, 0, map.widthInPixels, map.heightInPixels)
@@ -42,14 +44,14 @@ export default class Level extends Phaser.Scene {
     this.skillBar = new SkillBar(this, this.player);
     
     // Create status bars UI (health and experience)
-    this.statusBars = new StatusBars(this, this.player);
-
-    this.physics.add.collider(this.player,this.collideLayer);
+    this.statusBars = new StatusBars(this, this.player);      this.physics.add.collider(this.player,this.collideLayer);
     this.physics.add.collider(this.slimes,this.collideLayer);
-    this.physics.add.overlap(this.player,this.crystals, (p, c) => {
-      p.gainXp(c.getData('xp') || 10);
-      c.destroy();
-    });    
+    
+    // Crystal magnetic pickup - crystals are pulled by player and collected on contact
+    this.physics.add.overlap(this.player, this.crystals, (player, crystal) => {
+      player.collectCrystal(crystal);
+    });
+    
     this.physics.add.overlap(this.player.projectiles, this.slimes, (rock, slime) => {
       const damage = this.player.getSpellDamage('rock');
       slime.takeDamage(damage);
@@ -66,13 +68,14 @@ export default class Level extends Phaser.Scene {
       if (distance > 20) return; // Must be very close to the slime (direct hit)
         explosion.isTravelling = false;
       explosion.body.setVelocity(0);
-      
-      // Determine animation and spell type based on the explosion
+        // Determine animation and spell type based on the explosion
       let animationKey;
-      let spellType = explosion.spellType || 'explosion'; // Default to explosion if not set
+      let spellType = explosion.spellType || 'explosion'; 
       
       if (spellType === 'explosionTwoColors') {
         animationKey = "Explosion_two_colors";
+      } else if (spellType === 'nuclearexplosion') {
+        animationKey = "Nuclear_explosion";
       } else {
         animationKey = "Explosion_blue_oval";
       }
@@ -99,8 +102,7 @@ export default class Level extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.slimes, (_p, slime) => {
       slime.attack();
     });
-  }  
-  update() {
+  }  update() {
     this.player.update(this.keys);
     this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
     this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.map.heightInPixels);

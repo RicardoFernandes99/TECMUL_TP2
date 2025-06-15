@@ -31,7 +31,16 @@ export default class RewardSystem {
         apply: (player) => {
           player.baseDamage += 5;
         }
-      },      // Spell rewards
+      },      
+      magnet:{
+        label: "Magnet Range +20",
+        icon: "Magnet", // UI asset
+        type: "stat",
+        apply: (player) => {
+          player.pickupRange += 20;
+        }
+      },
+      // Spell rewards
       explosion: {
         label: "Unlock Explosion Spell",
         icon: "BlueOval", // Abilities asset
@@ -43,8 +52,7 @@ export default class RewardSystem {
           player.currentSpell = "explosion"; // Auto-switch to new spell
         }
       },
-      
-      explosionTwoColors: {
+        explosionTwoColors: {
         label: "Unlock Two-Color Explosion",
         icon: "ExplosionTwoColors", // Two-color explosion asset
         type: "spell",
@@ -52,29 +60,44 @@ export default class RewardSystem {
         unlockLevel: 4,
         apply: (player) => {
           player.unlockSpell("explosionTwoColors");
-          player.currentSpell = "explosionTwoColors"; // Auto-switch to new spell
+          player.currentSpell = "explosionTwoColors"; 
+        }
+      },
+        nuclearexplosion: {
+        label: "Unlock Nuclear Explosion Spell",
+        icon: "NuclearExplosion", 
+        type: "spell",
+        spellName: "nuclearexplosion",
+        unlockLevel: 6,
+        apply: (player) => {
+          player.unlockSpell("nuclearexplosion");
+          player.currentSpell = "nuclearexplosion"; 
         }
       }
     };
-  }  getAvailableRewards(maxRewards = 3) {
+  }
+
+  getAvailableRewards(maxRewards = 3) {
     const available = [];
     
     // Always include basic stat rewards
     available.push({ key: 'health', ...this.rewardTypes.health });
     available.push({ key: 'speed', ...this.rewardTypes.speed });
     available.push({ key: 'damage', ...this.rewardTypes.damage });
+    available.push({ key: 'magnet', ...this.rewardTypes.magnet });
 
-    // Add explosion spell unlock if available
     if (this.player.level >= 2 && !this.player.spells.explosion?.unlocked) {
       available.push({ key: 'explosion', ...this.rewardTypes.explosion });
     }
     
-    // Add explosionTwoColors spell unlock if available
     if (this.player.level >= 4 && !this.player.spells.explosionTwoColors?.unlocked) {
       available.push({ key: 'explosionTwoColors', ...this.rewardTypes.explosionTwoColors });
     }
 
-    // Randomly select from available rewards
+    if (this.player.level >= 6 && !this.player.spells.nuclearexplosion?.unlocked) {
+      available.push({ key: 'nuclearexplosion', ...this.rewardTypes.nuclearexplosion });
+    }
+
     const shuffled = available.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, maxRewards);
   }

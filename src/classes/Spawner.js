@@ -13,8 +13,8 @@ export default class Spawner {
         this.slimeGroup = slimeGroup;
         this.limitesLayer = limitesLayer;
 
-        this.spawnDelay = 1000; // ms → spawn every 3 sec
-        this.maxSlimes = 10;    // Max slimes at once
+        this.spawnDelay = 500; // ms → spawn every 3 sec
+        this.maxSlimes = 30;    // Max slimes at once
         this.level = 1;         // Game level → makes slimes stronger
 
         this.startSpawning();
@@ -30,11 +30,24 @@ export default class Spawner {
             },
             loop: true
         });
-    }
-
+    }    
     spawnSlime() {
-        const x = Phaser.Math.Between(100, this.scene.map.widthInPixels - 100);
-        const y = Phaser.Math.Between(100, this.scene.map.heightInPixels - 100);
+        let x, y;
+        let attempts = 0;
+        const maxAttempts = 50; // Prevent infinite loops
+        
+        // Keep trying to find a valid spawn position
+        do {
+            x = Phaser.Math.Between(100, this.scene.map.widthInPixels - 100);
+            y = Phaser.Math.Between(100, this.scene.map.heightInPixels - 100);
+            attempts++;
+        } while (!this.isValidSpawnPosition(x, y) && attempts < maxAttempts);
+        
+        // If we couldn't find a valid position after max attempts, skip spawning
+        if (attempts >= maxAttempts) {
+            console.warn("Could not find valid spawn position for slime");
+            return;
+        }
 
         const slime = new Slime(this.scene, x, y);
 
@@ -45,6 +58,24 @@ export default class Spawner {
 
         this.slimeGroup.add(slime);
         this.scene.physics.add.collider(slime, this.limitesLayer);
+    }
+
+    /**
+     * Check if a position is valid for spawning (not in collision tiles)
+     * @param {number} x - X coordinate
+     * @param {number} y - Y coordinate
+     * @returns {boolean} - True if position is valid for spawning
+     */
+    isValidSpawnPosition(x, y) {
+        // Convert world coordinates to tile coordinates
+        const tileX = Math.floor(x / this.limitesLayer.tilemap.tileWidth);
+        const tileY = Math.floor(y / this.limitesLayer.tilemap.tileHeight);
+        
+        // Get the tile at this position
+        const tile = this.limitesLayer.getTileAt(tileX, tileY);
+        
+        // If there's no tile or the tile doesn't collide, it's a valid position
+        return !tile || !tile.collides;
     }
 
     increaseDifficulty() {
