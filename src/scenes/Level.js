@@ -1,6 +1,8 @@
 import Player from "../classes/Player.js";
 import Slime from "../classes/Slime.js";
 import Spawner from "../classes/Spawner.js";
+import SkillBar from "../classes/SkillBar.js";
+import StatusBars from "../classes/StatusBars.js";
 
 export default class Level extends Phaser.Scene {
   constructor() {
@@ -22,65 +24,92 @@ export default class Level extends Phaser.Scene {
     this.cameras.main
       .setBounds(0, 0, map.widthInPixels, map.heightInPixels)
       .startFollow(this.player)
-      .setZoom(1);
-
-    this.keys = this.input.keyboard.addKeys({
+      .setZoom(1);    this.keys = this.input.keyboard.addKeys({
       up:    Phaser.Input.Keyboard.KeyCodes.W,
       down:  Phaser.Input.Keyboard.KeyCodes.S,
       left:  Phaser.Input.Keyboard.KeyCodes.A,
-      right: Phaser.Input.Keyboard.KeyCodes.D
+      right: Phaser.Input.Keyboard.KeyCodes.D,
+      // Spell switching keys
+      key1:  Phaser.Input.Keyboard.KeyCodes.ONE,
+      key2:  Phaser.Input.Keyboard.KeyCodes.TWO,
+      key3:  Phaser.Input.Keyboard.KeyCodes.THREE,
+      key4:  Phaser.Input.Keyboard.KeyCodes.FOUR
     });
-    this.input.on("pointerdown", pointer => this.player.attack(pointer));
-
+    this.input.on("pointerdown", pointer => this.player.attack(pointer));    
     this.slimes    = this.physics.add.group();
     this.spawner   = new Spawner(this, this.slimes, this.collideLayer);
-    this.crystals  = this.physics.add.group();
+    this.crystals  = this.physics.add.group();    // Create skill bar UI
+    this.skillBar = new SkillBar(this, this.player);
+    
+    // Create status bars UI (health and experience)
+    this.statusBars = new StatusBars(this, this.player);
 
     this.physics.add.collider(this.player,this.collideLayer);
     this.physics.add.collider(this.slimes,this.collideLayer);
     this.physics.add.overlap(this.player,this.crystals, (p, c) => {
       p.gainXp(c.getData('xp') || 10);
       c.destroy();
-    });
+    });    
     this.physics.add.overlap(this.player.projectiles, this.slimes, (rock, slime) => {
-      slime.takeDamage(10);
+      const damage = this.player.getSpellDamage('rock');
+      slime.takeDamage(damage);
       rock.destroy();
-    });
-    
-    
-    this.physics.add.overlap(this.player.explosions, this.slimes, (explosion, _s) => {
+    });        
+    this.physics.add.overlap(this.player.explosions, this.slimes, (explosion, slime) => {
       if (!explosion.isTravelling) return;
-      explosion.isTravelling = false;
+      
+      // Only trigger if explosion directly hits this specific slime
+      const distance = Phaser.Math.Distance.Between(
+        explosion.x, explosion.y,
+        slime.x, slime.y
+      );
+      if (distance > 20) return; // Must be very close to the slime (direct hit)
+        explosion.isTravelling = false;
       explosion.body.setVelocity(0);
-      const animData    = this.anims.get("Explosion_blue_oval");
+      
+      // Determine animation and spell type based on the explosion
+      let animationKey;
+      let spellType = explosion.spellType || 'explosion'; // Default to explosion if not set
+      
+      if (spellType === 'explosionTwoColors') {
+        animationKey = "Explosion_two_colors";
+      } else {
+        animationKey = "Explosion_blue_oval";
+      }
+      
+      const animData = this.anims.get(animationKey);
       explosion.anims.play({
-        key:        "Explosion_blue_oval",
+        key: animationKey,
         startFrame: 0,
-        endFrame:   animData.frames.length - 1
-      });
-      const AOE_RADIUS = 64;
-      const DAMAGE     = 50;
-      this.slimes.children.iterate(s => {
+        endFrame: animData.frames.length - 1
+      });      
+      // Get damage and AOE from player based on spell type
+      const damage = this.player.getSpellDamage(spellType);
+      const aoeRadius = this.player.getSpellAOERadius(spellType);
+        this.slimes.children.iterate(s => {
         const d = Phaser.Math.Distance.Between(explosion.x, explosion.y,s.x,s.y);
-        if (d <= AOE_RADIUS) {
-          s.takeDamage(DAMAGE);
+        if (d <= aoeRadius) {
+          s.takeDamage(damage);
         }
       });
-      explosion.once("animationcomplete-Explosion_blue_oval", () => {
+      explosion.once(`animationcomplete-${animationKey}`, () => {
         explosion.destroy();
       });
     });
-
-
     this.physics.add.overlap(this.player, this.slimes, (_p, slime) => {
       slime.attack();
     });
-  }
-
+  }  
   update() {
     this.player.update(this.keys);
     this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
     this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.map.heightInPixels);
     this.slimes.children.iterate(slime => slime.update(this.player));
+    
+    // Update skill bar
+    this.skillBar.update();
+    
+    // Update status bars
+    this.statusBars.update();
   }
 }

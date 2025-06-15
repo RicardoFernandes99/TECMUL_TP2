@@ -7,6 +7,16 @@
                 "key": "animations"
             },
             {
+                "url": "assets/UI/BlueOval.png",
+                "type": "image",
+                "key": "BlueOval"
+            },
+            {
+                "url": "assets/UI/BlueOval.png",
+                "type": "image",
+                "key": "BlueOval_1"
+            },
+            {
                 "url": "assets/creature-sheet.png",
                 "frameConfig": {
                     "frameWidth": 24,
@@ -31,6 +41,11 @@
                 },
                 "type": "spritesheet",
                 "key": "crystal-qubodup-ccby3-16-green"
+            },
+            {
+                "url": "assets/UI/Damage.png",
+                "type": "image",
+                "key": "Damage"
             },
             {
                 "url": "assets/Player/Dude_Monster_Death_8.png",
@@ -104,14 +119,37 @@
                 "key": "Explosion_blue_oval1-0"
             },
             {
-                "url": "assets/UI/green.png",
-                "type": "image",
-                "key": "green"
+                "url": "assets/Abilities/ExplosionTwoColors/Explosion_two_colors1-0.png",
+                "frameConfig": {
+                    "frameWidth": 256,
+                    "frameHeight": 256,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Explosion_two_colors1-0"
             },
             {
-                "url": "assets/UI/red.png",
+                "url": "assets/Abilities/ExplosionTwoColors/ExplosionTwoColors.png",
                 "type": "image",
-                "key": "red"
+                "key": "ExplosionTwoColors"
+            },
+            {
+                "url": "assets/UI/Health.png",
+                "type": "image",
+                "key": "Health"
+            },
+            {
+                "url": "assets/MainMenu/MainMenuBG.png",
+                "type": "image",
+                "key": "MainMenuBG"
+            },
+            {
+                "url": "assets/UI/MovementSpeed.png",
+                "type": "image",
+                "key": "MovementSpeed"
             },
             {
                 "url": "assets/Player/Rock1.png",

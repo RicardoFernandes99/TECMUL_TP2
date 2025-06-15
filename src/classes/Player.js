@@ -1,4 +1,5 @@
 import HealthBar from "./HealthBar.js";
+import RewardSystem from "./RewardSystem.js";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -6,35 +7,40 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.scene = scene;
-    this.setCollideWorldBounds(true);
-
-    // stats
+    this.setCollideWorldBounds(true);   
     this.hp       = 100;
     this.maxHp    = 100;
     this.speed    = 200;
     this.xp       = 0;
     this.level    = 1;
-    this.xpToNext = 10;
+    this.xpToNext = 10;    
+    this.baseDamage = 10;    
+    this.spells = {
+      rock: { unlocked: true, cooldown: 0, baseDamage: 10, aoeRadius: 0 },
+      explosion: { unlocked: false, cooldown: 0, baseDamage: 30, aoeRadius: 64 },
+      explosionTwoColors: { unlocked: false, cooldown: 0, baseDamage: 40, aoeRadius: 80 },
+    };
+    this.currentSpell = 'rock';
 
-    // state
     this.isAttacking    = false;
     this.attackCooldown = false;
-    this.isDead         = false;
-
-    // two separate pools
+    this.isDead         = false;    
     this.projectiles = this.scene.physics.add.group();           
     this.explosions = this.scene.physics.add.group({
-      defaultKey: "Explosion_blue_oval",
+      defaultKey: "Explosion_blue_oval1-0", // Need this for setup,override in the throwExplosion
       maxSize: 10,
       classType: Phaser.Physics.Arcade.Sprite
     });
-
     this.healthBar = new HealthBar(scene, this);
+    this.rewardSystem = new RewardSystem(this);
     this.play("dude-walk");
   }
 
   update(keys) {
-    if (this.isDead) return;
+    if (this.isDead) return;   
+    if (keys.key1 && keys.key1.isDown) this.switchSpell('rock');
+    if (keys.key2 && keys.key2.isDown) this.switchSpell('explosion');
+    if (keys.key3 && keys.key3.isDown) this.switchSpell('explosionTwoColors');
 
     this.body.setVelocity(0);
     if (keys.left.isDown){ 
@@ -56,21 +62,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const playing = this.anims.isPlaying;
     const moving  = this.body.velocity.length() > 0;
 
-    // only block new walk‐anim if we’re mid-throw or mid-hurt
     if ((animKey === "dude-throw" || animKey === "dude-hurt") && playing) {
-      // let that finish
-    }
-    else if (moving) {
-      this.play("dude-walk", true);
-    } else {
-      this.play("dude-walk", true);
+    }    else {
+      if (moving) {
+        this.play("dude-walk", true);
+      } else {
+        this.anims.stop();
+        this.setFrame(0);
+      }
     }
 
     this.healthBar.update();
   }
-
   attack(pointer) {
     if (this.isDead || this.attackCooldown) return;
+
+    const spell = this.spells[this.currentSpell];
+    if (!spell || !spell.unlocked || spell.cooldown > 0) return;
 
     this.isAttacking    = true;
     this.attackCooldown = true;
@@ -79,18 +87,28 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.play("dude-throw");
 
     this.once("animationcomplete-dude-throw", () => {
-      // level‐based projectile
-      if (this.level === 1) {
-        this.throwRock(pointer);
-      } else {
-        this.throwExplosion(pointer);
-      }
+      // Cast the current spell
+      this.castSpell(this.currentSpell, pointer);
 
       // reset state & return to walk
       this.isAttacking    = false;
       this.attackCooldown = false;
       this.play("dude-walk", true);
     });
+  }
+  castSpell(spellName, pointer) {
+    switch(spellName) {
+      case 'rock':
+        this.throwRock(pointer);
+        break;
+      case 'explosion':
+        this.throwExplosion(pointer);
+        break;
+      case 'explosionTwoColors':
+        this.throwExplosion(pointer); // Uses same function as explosion
+        break;
+      // Add more spells here
+    }
   }
 
   throwRock(pointer) {
@@ -111,14 +129,24 @@ throwExplosion(pointer) {
   const exp = this.explosions.get(this.x, this.y);
   if (!exp) return;
 
-  // 2) activate & position
+  // 2) Set the appropriate texture and spell type based on current spell
+  let textureKey;
+  if (this.currentSpell === 'explosionTwoColors') {
+    textureKey = 'Explosion_two_colors1-0';
+    exp.spellType = 'explosionTwoColors'; // Track which spell this explosion is from
+  } else {
+    textureKey = 'Explosion_blue_oval1-0';
+    exp.spellType = 'explosion'; // Track which spell this explosion is from
+  }
+  exp.setTexture(textureKey);
+
+  // 3) activate & position
   exp
     .setActive(true)
     .setVisible(true);
-  exp.body.reset(this.x, this.y);
-
-  // 3) mark as travelling and give it a visible frame (frame 0 should be a solid projectile frame)
+  exp.body.reset(this.x, this.y);// 3) mark as travelling and give it a visible frame (frame 0 should be a solid projectile frame)
   exp.isTravelling = true;
+  exp.anims.stop();
   exp.setFrame(0);
 
   // 4) shoot it toward the pointer
@@ -154,40 +182,64 @@ throwExplosion(pointer) {
     this.once("animationcomplete-dude-death", () => {
       this.disableBody(true, true);
       this.healthBar.destroy();
-    });
+    });  }
+
+  gainXp(amount) {
+    this.xp += amount;
+
+    if (this.xp >= this.xpToNext) {
+      this.xp -= this.xpToNext;      // carry over extra XP
+      this.level++;                  // bump level
+      this.xpToNext = Math.floor(this.xpToNext * 1.2);  // scale next threshold
+
+      // Get available rewards from reward system
+      const rewards = this.rewardSystem.getAvailableRewards(3);
+
+      // Trigger the LevelUp UI:
+      //   1) pause the main Level scene
+      //   2) launch the LevelUp overlay, passing in reward choices
+      this.scene.scene.pause("Level");
+      this.scene.scene.launch("LevelUp", {
+        rewards: rewards,
+        onSelect: choice => {
+          this.rewardSystem.applyReward(choice.key || choice.rewardKey);
+        }
+      });
+    }
+  }
+  unlockSpell(spellName) {
+    if (this.spells[spellName]) {
+      this.spells[spellName].unlocked = true;
+      // Trigger skill bar update if it exists
+      if (this.scene.skillBar) {
+        this.scene.skillBar.updateSkillSlots();
+      }
+    }
+  }  switchSpell(spellName) {
+    if (this.spells[spellName] && this.spells[spellName].unlocked) {
+      this.currentSpell = spellName;
+      // Trigger skill bar update if it exists
+      if (this.scene.skillBar) {
+        this.scene.skillBar.updateSkillSlots();
+      }
+    }
+  }
+  getSpellDamage(spellName) {
+    const spell = this.spells[spellName];
+    if (!spell) return 0;
+    return spell.baseDamage + this.baseDamage;
   }
 
+  getSpellAOERadius(spellName) {
+    const spell = this.spells[spellName];
+    return spell ? spell.aoeRadius : 0;
+  }
 
-        gainXp(amount) {
-            this.xp += amount;
-            console.log(`Gained ${amount} XP (now ${this.xp}/${this.xpToNext})`);
+  getCurrentSpellDamage() {
+    return this.getSpellDamage(this.currentSpell);
+  }
 
-            if (this.xp >= this.xpToNext) {
-            this.xp -= this.xpToNext;      // carry over extra XP
-            this.level++;                  // bump level
-            this.xpToNext = Math.floor(this.xpToNext * 1.2);  // scale next threshold
-
-            // Trigger the LevelUp UI:
-            //   1) pause the main Level scene
-            //   2) launch the LevelUp overlay, passing in reward choices
-            this.scene.scene.pause("Level");
-            this.scene.scene.launch("LevelUp", {
-                rewards: [
-                { key: "icon-hp",    label: "Max HP +20"   },
-                { key: "icon-speed", label: "Move Speed +50"},
-                { key: "icon-dmg",   label: "Damage +5"     },
-                ],
-                onSelect: choice => {
-                console.log("Chose reward:", choice.label);
-                // apply the upgrade:
-                if (choice.label.includes("HP"))    this.maxHp += 20;
-                if (choice.label.includes("Speed")) this.speed += 50;
-                if (choice.label.includes("Damage")) {
-                    // e.g. you could track an attackDamage property
-                    this.attackDamage = (this.attackDamage||0) + 5;
-                }
-                }
-            });
-            }
-        }
+  getCurrentSpellAOERadius() {
+    return this.getSpellAOERadius(this.currentSpell);
+  }
 }
