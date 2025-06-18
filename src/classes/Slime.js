@@ -5,11 +5,9 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
         super(scene, x, y, "slime-walk", 0);
 
-        // Add to scene + enable physics
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        // Setup slime properties
         this.hp = 100;
         this.maxHp = 100;
         this.speed = 50;
@@ -34,7 +32,6 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
         } else {
             this.anims.play("slime-hurt", true);
 
-            // once that animation completes, go back to walking
             this.once("animationcomplete-slime-hurt", () => {
                     this.anims.play("slime-walk", true);
 
@@ -42,24 +39,21 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    // Example method: attack
-        attack() {
+    attack() {
             if (this.isDead || this.isAttacking) return;
 
             this.isAttacking = true;
             this.body.setVelocity(0, 0);
 
-            // Force animation to start from frame 0
             this.anims.play("slime-attack", true);
 
-            // Listen only ONCE for this animation finishing
             this.once("animationcomplete-slime-attack", () => {
                 this.isAttacking = false;
                 this.anims.play("slime-walk", true);
             });
 
             this.scene.player.hurt(10); 
-        }
+    }
 
     die() {
         this.isDead = true;
@@ -73,7 +67,7 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
             crystal.setData("xp", 10);         
             
             crystal.play("Exp_drop");
-
+            this.scene.player.kills += 1; 
             this.destroy();
             
         });
@@ -81,25 +75,22 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
 
     }
 
-    // Simple update method → ex: make it follow player
     update(player) {
-        if (this.isDead) return; // allow attacking even during attack animation
+        if (this.isDead) return; 
 
         const distance = Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y);
 
         if (distance < 1 && !this.isAttacking) {
             this.attack();
-            return; // stop moving when attacking
+            return; 
         }
 
-        // If not attacking, move toward player
         if (!this.isAttacking) {
             const dir = new Phaser.Math.Vector2(player.x - this.x, player.y - this.y);
             dir.normalize();
 
             this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
 
-            // Flip sprite based on direction
             this.flipX = this.body.velocity.x < 0;
         }
         this.healthBar.update();

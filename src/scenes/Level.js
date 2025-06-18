@@ -3,6 +3,7 @@ import Slime from "../classes/Slime.js";
 import Spawner from "../classes/Spawner.js";
 import SkillBar from "../classes/SkillBar.js";
 import StatusBars from "../classes/StatusBars.js";
+import Leaderboard from "../classes/Leaderboard.js";
 
 export default class Level extends Phaser.Scene {
   constructor() {
@@ -11,7 +12,8 @@ export default class Level extends Phaser.Scene {
   create(data) {
 
     this.selectedCharacter = data.selectedCharacter || 'dude';
-    
+    this.playerName = data.playerName || 'Player';
+
     const map = this.make.tilemap({ key: 'level-map' });
     this.map = map;
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -26,21 +28,28 @@ export default class Level extends Phaser.Scene {
     this.cameras.main
       .setBounds(0, 0, map.widthInPixels, map.heightInPixels)
       .startFollow(this.player)
-      .setZoom(1);    this.keys = this.input.keyboard.addKeys({
+      .setZoom(1);      
+      this.keys = this.input.keyboard.addKeys({
       up:    Phaser.Input.Keyboard.KeyCodes.W,
       down:  Phaser.Input.Keyboard.KeyCodes.S,
       left:  Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
-      // Spell switching keys
+
       key1:  Phaser.Input.Keyboard.KeyCodes.ONE,
       key2:  Phaser.Input.Keyboard.KeyCodes.TWO,
       key3:  Phaser.Input.Keyboard.KeyCodes.THREE,
-      key4:  Phaser.Input.Keyboard.KeyCodes.FOUR
-    });
-    this.input.on("pointerdown", pointer => this.player.attack(pointer));    
+      key4:  Phaser.Input.Keyboard.KeyCodes.FOUR,
+      escape: Phaser.Input.Keyboard.KeyCodes.ESC
+    });    this.isPaused = false;
+    this.pauseMenu = null;
+
+    // Initialize leaderboard
+    this.leaderboard = new Leaderboard(this);
+
+    this.input.on("pointerdown", pointer => this.player.attack(pointer));
     this.slimes    = this.physics.add.group();
     this.spawner   = new Spawner(this, this.slimes, this.collideLayer);
-    this.crystals  = this.physics.add.group();    // Create skill bar UI
+    this.crystals  = this.physics.add.group();    
     this.skillBar = new SkillBar(this, this.player);
     
     this.statusBars = new StatusBars(this, this.player);      
@@ -107,16 +116,70 @@ export default class Level extends Phaser.Scene {
       slime.attack();
     });
 
-  }  update() {
+  }  
+    togglePause() {
+    if (this.isPaused) {
+      this.isPaused = false;
+      this.physics.world.resume();
+      this.anims.resumeAll();
+      this.time.paused = false;
+      
+      if (this.pauseMenu) {
+        this.pauseMenu.destroy(true);
+        this.pauseMenu = null;
+      }
+    } else {
+      this.isPaused = true;
+      this.physics.world.pause();
+      this.anims.pauseAll();
+      this.time.paused = true;
+      
+      this.pauseMenu = this.add.group();
+      
+      const overlay = this.add.rectangle(
+        this.cameras.main.centerX, 
+        this.cameras.main.centerY, 
+        this.cameras.main.width, 
+        this.cameras.main.height, 
+        0x000000, 0.5
+      );
+      overlay.setScrollFactor(0);
+      
+      const text = this.add.text(
+        this.cameras.main.centerX, 
+        this.cameras.main.centerY, 
+        'GAME PAUSED', 
+        {
+          fontSize: '32px',
+          fill: '#ffffff',
+          align: 'center',
+          stroke: '#000000',
+          strokeThickness: 4
+        }
+      );
+      text.setOrigin(0.5);
+      text.setScrollFactor(0);
+      
+      this.pauseMenu.add(overlay);
+      this.pauseMenu.add(text);
+    }
+  }
+  update() {
+
+    if (Phaser.Input.Keyboard.JustDown(this.keys.escape)) {
+      this.togglePause();
+    }
+
+    if (this.isPaused) return;
     this.player.update(this.keys);
     this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
     this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.map.heightInPixels);
     this.slimes.children.iterate(slime => slime.update(this.player));
     
-    // Update skill bar
     this.skillBar.update();
     
-    // Update status bars
     this.statusBars.update();
   }
+
+
 }

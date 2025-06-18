@@ -12,7 +12,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.selectedCharacter = selectedCharacter;
     
     this.setupCharacterAnimations();
-    
     this.setCollideWorldBounds(true);
     this.hp = 100;
     this.maxHp = 100;
@@ -23,6 +22,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.xpToNext = 10;    
     this.baseDamage = 10;  
     this.lifesteal = 0;
+    this.kills = 0;
 
     this.spells = {
       rock: { unlocked: true, baseDamage: 10, aoeRadius: 0 },
@@ -30,6 +30,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       explosionTwoColors: { unlocked: false, baseDamage: 40, aoeRadius: 80 },
       nuclearexplosion: { unlocked: false, baseDamage: 100, aoeRadius: 128 }
     };
+
     this.currentSpell = 'rock';
 
     this.isAttacking    = false;
@@ -112,7 +113,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.play(this.getAnimationKey('walk'), true);
       } else {
         this.anims.stop();
-        this.setFrame(0);      }    }    
+        this.setFrame(0);      
+      }    
+    }    
     this.healthBar.update();
     
     this.checkCrystalPickup();
@@ -213,9 +216,10 @@ throwExplosion(pointer) {
     if (this.anims.currentAnim?.key !== hurtAnimKey) {
       this.play(hurtAnimKey);
     }
+    this.healthBar.update();
+
     if (this.hp <= 0) this.die();
-  }  
-  die() {
+  }    die() {
     this.isDead = true;
     this.body.setVelocity(0);
     const throwAnimKey = this.getAnimationKey('throw');
@@ -224,6 +228,14 @@ throwExplosion(pointer) {
     this.once(`animationcomplete-${deathAnimKey}`, () => {
       this.disableBody(true, true);
       this.healthBar.destroy();
+      
+      // Save score to leaderboard
+      if (this.scene.leaderboard && this.scene.playerName) {
+        const rank = this.scene.leaderboard.addScore(this.scene.playerName, this.kills);
+        if (rank > 0) {
+          console.log(`High score! Rank #${rank}`);
+        }
+      }
     });
   }
 
@@ -240,7 +252,7 @@ throwExplosion(pointer) {
       if (distance <= this.pickupRange && distance > 20) { 
         const angle = Phaser.Math.Angle.Between(crystal.x, crystal.y, this.x, this.y);
         
-        const magnetSpeed = 500;
+        const magnetSpeed = 200;
         
         if (crystal.body) {
           crystal.body.setVelocity(

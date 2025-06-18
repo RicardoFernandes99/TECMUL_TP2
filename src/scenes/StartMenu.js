@@ -15,6 +15,7 @@ export default class StartMenu extends Phaser.Scene {
 		// Menu state management
 		this.showingCharacterSelect = false;
 		this.selectedCharacter = null;
+		this.playerName = '';
 		/* END-USER-CTR-CODE */
 	}
 
@@ -161,6 +162,40 @@ export default class StartMenu extends Phaser.Scene {
 		});
 		dudetteLabel.setOrigin(0.5);
 		
+		const nameInputY = imageHeight / 2 + 180;
+		
+		const nameLabel = this.add.text(imageWidth / 2, nameInputY - 30, 'ENTER YOUR NAME:', {
+			fontSize: '20px',
+			fill: '#ffffff',
+			fontStyle: 'bold',
+			stroke: '#000000',
+			strokeThickness: 3
+		});
+		nameLabel.setOrigin(0.5);
+		
+		const nameInput = document.createElement('input');
+		nameInput.type = 'text';
+		nameInput.placeholder = 'Player Name';
+		nameInput.maxLength = 15;
+		nameInput.style.position = 'absolute';
+		nameInput.style.left = '50%';
+		nameInput.style.top = `${nameInputY}px`;
+		nameInput.style.transform = 'translateX(-50%)';
+		nameInput.style.padding = '8px';
+		nameInput.style.fontSize = '16px';
+		nameInput.style.textAlign = 'center';
+		nameInput.style.border = '2px solid #ffffff';
+		nameInput.style.borderRadius = '5px';
+		nameInput.style.backgroundColor = '#333333';
+		nameInput.style.color = '#ffffff';
+		nameInput.style.outline = 'none';
+		nameInput.value = 'User';
+		
+		document.body.appendChild(nameInput);
+		nameInput.focus();
+		nameInput.select();
+		this.nameInput = nameInput;
+		
 		const chooseText = this.add.text(imageWidth / 2, imageHeight / 2 - 180, 'CHOOSE YOUR CHARACTER', {
 			fontSize: '32px',
 			fill: '#ffffff',
@@ -171,13 +206,33 @@ export default class StartMenu extends Phaser.Scene {
 		chooseText.setOrigin(0.5);
 		
 		dudeBox.on('pointerdown', () => {
+			const playerName = this.nameInput ? this.nameInput.value.trim() || 'Anonymous' : 'Anonymous';
 			this.selectedCharacter = 'dude';
-			this.scene.start('Level', { selectedCharacter: this.selectedCharacter });
+			
+			if (this.nameInput) {
+				document.body.removeChild(this.nameInput);
+				this.nameInput = null;
+			}
+			
+			this.scene.start('Level', { 
+				selectedCharacter: this.selectedCharacter,
+				playerName: playerName
+			});
 		});
 		
 		dudetteBox.on('pointerdown', () => {
+			const playerName = this.nameInput ? this.nameInput.value.trim() || 'Anonymous' : 'Anonymous';
 			this.selectedCharacter = 'dudette';
-			this.scene.start('Level', { selectedCharacter: this.selectedCharacter });
+			
+			if (this.nameInput) {
+				document.body.removeChild(this.nameInput);
+				this.nameInput = null;
+			}
+			
+			this.scene.start('Level', { 
+				selectedCharacter: this.selectedCharacter,
+				playerName: playerName
+			});
 		});
 		
 		dudeBox.on('pointerover', () => {
