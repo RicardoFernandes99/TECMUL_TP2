@@ -1,84 +1,123 @@
 
-import Slime from "./Slime.js";
+import Slime from "./Mobs/Slime.js";
+import Troll from "./Mobs/Troll.js";
+import Golem from "./Mobs/Golem.js";
+import Skeleton from "./Mobs/Skeleton.js";
+import Dragon from "./Mobs/Dragon.js";
+import Reaper from "./Mobs/Reaper.js";
 
 export default class Spawner {
 
-    /**
-     * @param {Phaser.Scene} scene - Reference to your Level scene
-     * @param {Phaser.GameObjects.Group} slimeGroup - The group where slimes go
-     * @param {Phaser.Tilemaps.TilemapLayer} limitesLayer - To add collisions
-     */
-    constructor(scene, slimeGroup, limitesLayer) {
+    constructor(scene, mobGroup, limitesLayer) {
         this.scene = scene;
-        this.slimeGroup = slimeGroup;
+        this.mobGroup = mobGroup;
         this.limitesLayer = limitesLayer;
 
-        this.spawnDelay = 500; // ms → spawn every 3 sec
-        this.maxSlimes = 30;    // Max slimes at once
-        this.level = 1;         // Game level → makes slimes stronger
+        this.spawnDelay = 500;
+        this.maxMobs = 30;
+
+        this.mobClasses = {
+            slime: Slime,
+            skeleton: Skeleton,
+            troll: Troll,
+            reaper: Reaper,
+            golem: Golem,
+            dragon: Dragon
+        };
 
         this.startSpawning();
-    }
-
+    }    
     startSpawning() {
         this.scene.time.addEvent({
             delay: this.spawnDelay,
             callback: () => {
-                if (this.slimeGroup.countActive(true) < this.maxSlimes) {
-                    this.spawnSlime();
+                if (this.mobGroup.countActive(true) < this.maxMobs) {
+                    this.spawnMob();
                 }
             },
             loop: true
         });
     }    
-    spawnSlime() {
+    getMobTypeForLevel() {
+        const playerLevel = this.scene.player.level || 1;
+        
+        if (playerLevel <= 2) {
+            return Math.random() < 0.7 ? 'slime' : 'skeleton';
+        } else if (playerLevel <= 5) {
+            const rand = Math.random();
+            if (rand < 0.4) return 'slime';
+            if (rand < 0.7) return 'skeleton';
+            return 'troll';
+        } else if (playerLevel <= 8) {
+            const rand = Math.random();
+            if (rand < 0.3) return 'slime';
+            if (rand < 0.5) return 'skeleton';
+            if (rand < 0.7) return 'troll';
+            return 'reaper';
+        } else if (playerLevel <= 12) {
+            const rand = Math.random();
+            if (rand < 0.2) return 'slime';
+            if (rand < 0.4) return 'skeleton';
+            if (rand < 0.6) return 'troll';
+            if (rand < 0.8) return 'reaper';
+            return 'golem';
+        } else {
+            const rand = Math.random();
+            if (rand < 0.1) return 'slime';
+            if (rand < 0.2) return 'skeleton';
+            if (rand < 0.4) return 'troll';
+            if (rand < 0.6) return 'reaper';
+            if (rand < 0.8) return 'golem';
+            return 'dragon';
+        }
+    }
+    
+    spawnMob() {
         let x, y;
         let attempts = 0;
-        const maxAttempts = 50; // Prevent infinite loops
+        const maxAttempts = 50; 
         
-        // Keep trying to find a valid spawn position
         do {
             x = Phaser.Math.Between(100, this.scene.map.widthInPixels - 100);
             y = Phaser.Math.Between(100, this.scene.map.heightInPixels - 100);
             attempts++;
         } while (!this.isValidSpawnPosition(x, y) && attempts < maxAttempts);
         
-        // If we couldn't find a valid position after max attempts, skip spawning
         if (attempts >= maxAttempts) {
-            console.warn("Could not find valid spawn position for slime");
+            console.warn("Could not find valid spawn position for mob");
             return;
         }
 
-        const slime = new Slime(this.scene, x, y);
+        const mobType = this.getMobTypeForLevel();
+        const MobClass = this.mobClasses[mobType];
 
-        // Make slime stronger based on level
-        slime.hp = 50 + this.level * 20;
-        slime.maxHp = slime.hp;
-        slime.speed = 40 + this.level * 5;
+        const mob = new MobClass(this.scene, x, y);
 
-        this.slimeGroup.add(slime);
-        this.scene.physics.add.collider(slime, this.limitesLayer);
+        this.scaleMobForLevel(mob);
+
+        this.mobGroup.add(mob);
+        this.scene.physics.add.collider(mob, this.limitesLayer);
+    }    
+
+    scaleMobForLevel(mob) {
+        const playerLevel = this.scene.player.level || 1;        
+        const hpMultiplier = 1 + (playerLevel - 1) * 0.2;
+        const damageMultiplier = 1 + (playerLevel - 1) * 0.15;
+        const speedMultiplier = 1 + (playerLevel - 1) * 0.1;
+
+        mob.maxHp = Math.floor(mob.maxHp * hpMultiplier);
+        mob.hp = mob.maxHp;
+        mob.attackDamage = Math.floor(mob.attackDamage * damageMultiplier);
+        mob.speed = Math.floor(mob.speed * speedMultiplier);
+        mob.expValue = Math.floor(mob.expValue * (1 + (playerLevel - 1) * 0.1));
     }
 
-    /**
-     * Check if a position is valid for spawning (not in collision tiles)
-     * @param {number} x - X coordinate
-     * @param {number} y - Y coordinate
-     * @returns {boolean} - True if position is valid for spawning
-     */
     isValidSpawnPosition(x, y) {
-        // Convert world coordinates to tile coordinates
         const tileX = Math.floor(x / this.limitesLayer.tilemap.tileWidth);
         const tileY = Math.floor(y / this.limitesLayer.tilemap.tileHeight);
         
-        // Get the tile at this position
         const tile = this.limitesLayer.getTileAt(tileX, tileY);
         
-        // If there's no tile or the tile doesn't collide, it's a valid position
         return !tile || !tile.collides;
-    }
-
-    increaseDifficulty() {
-        this.level += 1;
     }
 }

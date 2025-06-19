@@ -1,5 +1,4 @@
 import Player from "../classes/Player.js";
-import Slime from "../classes/Slime.js";
 import Spawner from "../classes/Spawner.js";
 import SkillBar from "../classes/SkillBar.js";
 import StatusBars from "../classes/StatusBars.js";
@@ -29,6 +28,7 @@ export default class Level extends Phaser.Scene {
       .setBounds(0, 0, map.widthInPixels, map.heightInPixels)
       .startFollow(this.player)
       .setZoom(1);      
+
       this.keys = this.input.keyboard.addKeys({
       up:    Phaser.Input.Keyboard.KeyCodes.W,
       down:  Phaser.Input.Keyboard.KeyCodes.S,
@@ -44,36 +44,32 @@ export default class Level extends Phaser.Scene {
     this.isPaused = false;
     this.pauseMenu = null;
     
-    this.leaderboard = new Leaderboard(this);
-
+    this.leaderboard = new Leaderboard(this);    
     this.input.on("pointerdown", pointer => this.player.attack(pointer));
-    this.slimes    = this.physics.add.group();
-    this.spawner   = new Spawner(this, this.slimes, this.collideLayer);
-    this.crystals  = this.physics.add.group();    
+    this.mobs      = this.physics.add.group();
+    this.spawner   = new Spawner(this, this.mobs, this.collideLayer);
+    this.crystals  = this.physics.add.group();
     this.skillBar = new SkillBar(this, this.player);
-    
     this.statusBars = new StatusBars(this, this.player);      
     this.physics.add.collider(this.player,this.collideLayer);
-    this.physics.add.collider(this.slimes,this.collideLayer);
+    this.physics.add.collider(this.mobs,this.collideLayer);
     
     this.physics.add.overlap(this.player, this.crystals, (player, crystal) => {
       player.collectCrystal(crystal);
     });
-    
-    this.physics.add.overlap(this.player.projectiles, this.slimes, (rock, slime) => {
+      this.physics.add.overlap(this.player.projectiles, this.mobs, (rock, mob) => {
       const damage = this.player.getSpellDamage('rock');
-      slime.takeDamage(damage);
+      mob.takeDamage(damage);
       this.player.lifestealRegeneration();
 
       rock.destroy();
-    });
-
-    this.physics.add.overlap(this.player.explosions, this.slimes, (explosion, slime) => {
+    });    
+    this.physics.add.overlap(this.player.explosions, this.mobs, (explosion, mob) => {
       if (!explosion.isTravelling) return;
       
       const distance = Phaser.Math.Distance.Between(
         explosion.x, explosion.y,
-        slime.x, slime.y
+        mob.x, mob.y
       );
       if (distance > 20) return; 
       explosion.isTravelling = false;
@@ -96,13 +92,12 @@ export default class Level extends Phaser.Scene {
         startFrame: 0,
         endFrame: animData.frames.length - 1
       });      
-
       const damage = this.player.getSpellDamage(spellType);
       const aoeRadius = this.player.getSpellAOERadius(spellType);
-        this.slimes.children.iterate(s => {
-        const d = Phaser.Math.Distance.Between(explosion.x, explosion.y,s.x,s.y);
+        this.mobs.children.iterate(mob => {
+        const d = Phaser.Math.Distance.Between(explosion.x, explosion.y, mob.x, mob.y);
         if (d <= aoeRadius) {
-          s.takeDamage(damage);
+          mob.takeDamage(damage);
           this.player.lifestealRegeneration();
 
         }
@@ -111,9 +106,8 @@ export default class Level extends Phaser.Scene {
         explosion.destroy();
       });
     });
-    
-    this.physics.add.overlap(this.player, this.slimes, (_p, slime) => {
-      slime.attack();
+      this.physics.add.overlap(this.player, this.mobs, (_p, mob) => {
+      mob.attack();
     });
 
   }  
@@ -170,11 +164,10 @@ export default class Level extends Phaser.Scene {
       this.togglePause();
     }
 
-    if (this.isPaused) return;
-    this.player.update(this.keys);
+    if (this.isPaused) return;    this.player.update(this.keys);
     this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.map.widthInPixels);
     this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.map.heightInPixels);
-    this.slimes.children.iterate(slime => slime.update(this.player));
+    this.mobs.children.iterate(mob => mob.update(this.player));
     
     this.skillBar.update();
     

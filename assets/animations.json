@@ -1140,7 +1140,7 @@
             "randomFrame": false
         },
         {
-            "key": "Troll-attack",
+            "key": "troll-attack",
             "type": "frame",
             "frames": [
                 {
@@ -1209,7 +1209,7 @@
             "randomFrame": false
         },
         {
-            "key": "troll-die",
+            "key": "troll-death",
             "type": "frame",
             "frames": [
                 {
@@ -1417,7 +1417,7 @@
             "randomFrame": false
         },
         {
-            "key": "golem-die",
+            "key": "golem-death",
             "type": "frame",
             "frames": [
                 {
@@ -1597,7 +1597,7 @@
             "randomFrame": false
         },
         {
-            "key": "golem-atack",
+            "key": "golem-attack",
             "type": "frame",
             "frames": [
                 {
@@ -1832,7 +1832,7 @@
             "randomFrame": false
         },
         {
-            "key": "skeleton-die",
+            "key": "skeleton-death",
             "type": "frame",
             "frames": [
                 {
@@ -2018,7 +2018,7 @@
             "randomFrame": false
         },
         {
-            "key": "skeleton-atack",
+            "key": "skeleton-attack",
             "type": "frame",
             "frames": [
                 {
@@ -2253,7 +2253,7 @@
             "randomFrame": false
         },
         {
-            "key": "DragonAttack",
+            "key": "dragon-attack",
             "type": "frame",
             "frames": [
                 {
@@ -2286,7 +2286,7 @@
             "randomFrame": false
         },
         {
-            "key": "dragon-die",
+            "key": "dragon-death",
             "type": "frame",
             "frames": [
                 {
@@ -2431,7 +2431,7 @@
             "randomFrame": false
         },
         {
-            "key": "reaper-die",
+            "key": "reaper-death",
             "type": "frame",
             "frames": [
                 {
@@ -2527,7 +2527,6 @@
             ],
             "frameRate": 24,
             "skipMissedFrames": true,
-            "repeat": -1,
             "randomFrame": false
         },
         {
@@ -2612,7 +2611,7 @@
             "randomFrame": false
         },
         {
-            "key": "0_Reaper_Man_Slashing",
+            "key": "reaper-attack",
             "type": "frame",
             "frames": [
                 {
@@ -2690,7 +2689,6 @@
             ],
             "frameRate": 24,
             "skipMissedFrames": true,
-            "repeat": -1,
             "randomFrame": false
         },
         {

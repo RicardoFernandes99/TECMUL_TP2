@@ -272,7 +272,7 @@ throwExplosion(pointer) {
     });
   }
     collectCrystal(crystal) {
-    this.gainXp(10);    
+    this.gainXp(crystal.getData("xp") || 10);    
     crystal.destroy();
   }
 

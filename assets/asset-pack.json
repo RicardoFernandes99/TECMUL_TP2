@@ -106,19 +106,6 @@
                 "key": "0_Reaper_Man_Walking_000-0"
             },
             {
-                "url": "assets/Reaper/0_Reaper_Man_Walking_000-0 (1).png",
-                "frameConfig": {
-                    "frameWidth": 32,
-                    "frameHeight": 32,
-                    "startFrame": 0,
-                    "endFrame": -1,
-                    "spacing": 0,
-                    "margin": 0
-                },
-                "type": "spritesheet",
-                "key": "0_Reaper_Man_Walking_000-0 (1)"
-            },
-            {
                 "url": "assets/Skeleton/0_Skeleton_Crusader_Dying_000-0.png",
                 "frameConfig": {
                     "frameWidth": 900,
