@@ -226,10 +226,12 @@ throwExplosion(pointer) {
     this.off(`animationcomplete-${throwAnimKey}`);    const deathAnimKey = this.getAnimationKey('death');
     this.play(deathAnimKey);
     this.once(`animationcomplete-${deathAnimKey}`, () => {
-      this.disableBody(true, true);
+      this.disableBody(true, true);      
       this.healthBar.destroy();
       
-      if (this.scene.leaderboard && this.scene.playerName) {        
+      if (this.scene.leaderboard && this.scene.playerName) {
+        this.scene.leaderboard.addScore(this.scene.playerName, this.kills);
+        
         this.scene.scene.pause('Level');
         
         this.scene.scene.launch('GameOver', {
