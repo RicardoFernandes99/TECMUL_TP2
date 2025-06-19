@@ -23,6 +23,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.baseDamage = 10;
     this.lifesteal = 0;
     this.kills = 0;
+    this.turboMode = false;
+    this.turboStartTime = null;
+    this.turboLastUsed = 0;
+    this.turboDuration = 3000; 
+    this.turboCooldown = 10000;
 
     this.spells = {
       rock: { unlocked: true, baseDamage: 10, aoeRadius: 0 },
@@ -106,9 +111,30 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       moveY = 1;
     }
 
+    if (keys.shift && keys.shift.isDown) {
+      const currentTime = Date.now();
+
+      // Só pode ativar turbo se não estiver ativo E se já passou o cooldown
+      if (!this.turboMode && (currentTime - this.turboLastUsed >= this.turboCooldown)) {
+        this.turboMode = true;
+        this.turboStartTime = currentTime;
+        this.turboLastUsed = currentTime;
+
+        // Após a duração configurada, desabilita o turbo mode
+        this.scene.time.delayedCall(this.turboDuration, () => {
+          this.turboMode = false;
+        }, [], this);
+      }
+    }
+
+
     if (moveX !== 0 || moveY !== 0) {
       const moveVector = new Phaser.Math.Vector2(moveX, moveY).normalize();
-      this.body.setVelocity(moveVector.x * this.speed, moveVector.y * this.speed);
+      if (this.turboMode) {
+        this.body.velocity.set(moveVector.x * this.speed * 2, moveVector.y * this.speed * 2);
+      } else {
+        this.body.velocity.set(moveVector.x * this.speed, moveVector.y * this.speed);
+      }
     }
 
     const animKey = this.anims.currentAnim?.key;

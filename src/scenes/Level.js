@@ -39,7 +39,9 @@ export default class Level extends Phaser.Scene {
       key2:  Phaser.Input.Keyboard.KeyCodes.TWO,
       key3:  Phaser.Input.Keyboard.KeyCodes.THREE,
       key4:  Phaser.Input.Keyboard.KeyCodes.FOUR,
-      escape: Phaser.Input.Keyboard.KeyCodes.ESC
+      escape: Phaser.Input.Keyboard.KeyCodes.ESC,
+
+      shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
     });    
     this.isPaused = false;
     this.pauseMenu = null;
