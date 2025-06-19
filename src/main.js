@@ -2,6 +2,7 @@ import Level from "./scenes/Level.js";
 import Preload from "./scenes/Preload.js";
 import LevelUp from "./scenes/LevelUp.js";
 import StartMenu from "./scenes/StartMenu.js";
+import GameOver from "./scenes/GameOver.js";
 
 window.addEventListener('load', function () {
 
@@ -27,6 +28,7 @@ window.addEventListener('load', function () {
 	game.scene.add("Level", Level);
 	game.scene.add("LevelUp",  LevelUp);
 	game.scene.add("StartMenu", StartMenu);
+	game.scene.add("GameOver", GameOver);
 	game.scene.add("Boot", Boot, true);
 });
 

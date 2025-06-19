@@ -229,12 +229,14 @@ throwExplosion(pointer) {
       this.disableBody(true, true);
       this.healthBar.destroy();
       
-      // Save score to leaderboard
-      if (this.scene.leaderboard && this.scene.playerName) {
-        const rank = this.scene.leaderboard.addScore(this.scene.playerName, this.kills);
-        if (rank > 0) {
-          console.log(`High score! Rank #${rank}`);
-        }
+      if (this.scene.leaderboard && this.scene.playerName) {        
+        this.scene.scene.pause('Level');
+        
+        this.scene.scene.launch('GameOver', {
+          playerName: this.scene.playerName,
+          score: this.kills,
+          leaderboard: this.scene.leaderboard
+        });
       }
     });
   }

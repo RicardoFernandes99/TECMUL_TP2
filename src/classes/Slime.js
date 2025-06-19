@@ -10,6 +10,7 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
 
         this.hp = 100;
         this.maxHp = 100;
+        
         this.speed = 50;
         this.isDead = false;
         this.isAttacking = false;
@@ -75,6 +76,7 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
 
     }
 
+    
     update(player) {
         if (this.isDead) return; 
 
@@ -94,6 +96,5 @@ export default class Slime extends Phaser.Physics.Arcade.Sprite {
             this.flipX = this.body.velocity.x < 0;
         }
         this.healthBar.update();
-
     }
 }

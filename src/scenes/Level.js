@@ -40,10 +40,10 @@ export default class Level extends Phaser.Scene {
       key3:  Phaser.Input.Keyboard.KeyCodes.THREE,
       key4:  Phaser.Input.Keyboard.KeyCodes.FOUR,
       escape: Phaser.Input.Keyboard.KeyCodes.ESC
-    });    this.isPaused = false;
+    });    
+    this.isPaused = false;
     this.pauseMenu = null;
-
-    // Initialize leaderboard
+    
     this.leaderboard = new Leaderboard(this);
 
     this.input.on("pointerdown", pointer => this.player.attack(pointer));
