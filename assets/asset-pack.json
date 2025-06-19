@@ -324,6 +324,13 @@
                 "key": "Exit"
             },
             {
+                "url": [
+                    "assets/Sounds/EXP.wav"
+                ],
+                "type": "audio",
+                "key": "EXP"
+            },
+            {
                 "url": "assets/Abilities/bluecircle/Explosion_blue_circle1-0.png",
                 "frameConfig": {
                     "frameWidth": 256,
@@ -371,6 +378,20 @@
                 "url": "assets/Abilities/ExplosionTwoColors/ExplosionTwoColors.png",
                 "type": "image",
                 "key": "ExplosionTwoColors"
+            },
+            {
+                "url": [
+                    "assets/Sounds/fight.wav"
+                ],
+                "type": "audio",
+                "key": "fight"
+            },
+            {
+                "url": [
+                    "assets/Sounds/gameover.wav"
+                ],
+                "type": "audio",
+                "key": "gameover"
             },
             {
                 "url": "assets/UI/Health.png",
@@ -516,6 +537,13 @@
                 },
                 "type": "spritesheet",
                 "key": "slime-walk"
+            },
+            {
+                "url": [
+                    "assets/Sounds/start.wav"
+                ],
+                "type": "audio",
+                "key": "start"
             },
             {
                 "url": "assets/MainMenu/Start.png",

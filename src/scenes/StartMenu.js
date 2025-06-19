@@ -100,6 +100,9 @@ export default class StartMenu extends Phaser.Scene {
 	create() {
 
 		this.editorCreate();
+		
+		this.startMusic = this.sound.add('start', { loop: true, volume: 0.4 });
+		this.startMusic.play();
 	}
 
 	showCharacterSelection(imageWidth, imageHeight, startButton, exitButton) {
@@ -214,6 +217,11 @@ export default class StartMenu extends Phaser.Scene {
 				this.nameInput = null;
 			}
 			
+			// Stop start music before transitioning
+			if (this.startMusic) {
+				this.startMusic.stop();
+			}
+			
 			this.scene.start('Level', { 
 				selectedCharacter: this.selectedCharacter,
 				playerName: playerName
@@ -227,6 +235,11 @@ export default class StartMenu extends Phaser.Scene {
 			if (this.nameInput) {
 				document.body.removeChild(this.nameInput);
 				this.nameInput = null;
+			}
+			
+			// Stop start music before transitioning
+			if (this.startMusic) {
+				this.startMusic.stop();
 			}
 			
 			this.scene.start('Level', { 

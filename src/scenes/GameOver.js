@@ -10,6 +10,10 @@ export default class GameOver extends Phaser.Scene {
 	create(data) {
 		const { playerName, score, leaderboard } = data;
 		
+		// Play game over music
+		this.gameOverMusic = this.sound.add('gameover', { loop: false, volume: 0.5 });
+		this.gameOverMusic.play();
+		
 		const overlay = this.add.rectangle(
 			this.cameras.main.centerX,
 			this.cameras.main.centerY,
@@ -217,8 +221,15 @@ export default class GameOver extends Phaser.Scene {
 		});
 
 		buttonBg.on('pointerdown', () => {
-			this.scene.stop('GameOver');
-			this.scene.stop('Level');
+			if (this.gameOverMusic) {
+				this.gameOverMusic.stop();
+			}
+			
+			this.scene.manager.scenes.forEach(scene => {
+			if (scene.scene.key !== 'StartMenu') {
+				this.scene.stop(scene.scene.key);
+			}
+		});
 			this.scene.start('StartMenu');
 		});
 	}

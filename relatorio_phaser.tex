@@ -1,0 +1,248 @@
+\section{Desenvolvimento}
+\subsection{Interface do Utilizador}
+\hspace{2em} O desenvolvimento das interfaces gráficas foi fundamentado na utilização das capacidades avançadas do HTML5 Canvas, aliado à potência da framework Phaser.js para criação de elementos visuais interactivos. A filosofia de design adoptada privilegiou a simplicidade conceptual e a intuitividade operacional, garantindo uma experiência de utilizador fluida, acessível e esteticamente apelativa. Todas as interfaces foram concebidas seguindo princípios de usabilidade modernos, com especial atenção à hierarquia visual, acessibilidade e responsividade em diferentes resoluções de ecrã.
+
+\hspace{2em} A arquitectura visual foi estruturada com base numa paleta cromática coerente e elementos gráficos que reforçam a identidade temática do jogo. O design responsivo garante que os elementos da interface se adaptem dinamicamente às dimensões do ecrã, mantendo proporções adequadas e legibilidade óptima independentemente do dispositivo utilizado. A tipografia seleccionada privilegia a clareza e legibilidade, com tamanhos e contrastes adequados para utilização prolongada.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/main_menu.png}
+    \caption{Menu Principal}
+    \label{fig:1}
+\end{figure}
+
+\hspace{2em} O menu principal constitui o ponto de entrada da aplicação, sendo a primeira interface com que o utilizador interage. Este ecrã foi meticulosamente concebido para estabelecer imediatamente a atmosfera temática do jogo, apresentando elementos visuais que antecipam a experiência de jogo. O fundo incorpora arte conceitual original que define o universo do jogo, criando uma primeira impressão impactante e memorável.
+
+\hspace{2em} A disposição dos elementos segue uma hierarquia visual clara, com o título do jogo em posição proeminente, seguido pelas opções de navegação principais. Os botões interactivos foram desenhados com estados visuais distintos (normal, hover, pressionado), proporcionando feedback imediato ao utilizador e melhorando a percepção de responsividade da interface. A implementação inclui transições suaves entre estados, evitando mudanças bruscas que possam causar desconforto visual.
+
+\hspace{2em} O sistema de navegação foi optimizado para ser intuitivo tanto para utilizadores experientes como novatos em jogos digitais. As opções estão claramente identificadas com ícones representativos e texto descritivo, eliminando ambiguidades. A acessibilidade foi uma preocupação constante, com suporte para navegação por teclado e indicadores visuais claros para elementos interactivos.
+
+\hspace{2em} O sistema de selecção de personagem representa uma das inovações mais interessantes da interface, permitindo ao jogador personalizar a sua experiência através da escolha entre duas personagens distintas: "Dude Monster" e "Pink Monster". Embora ambas as personagens mantenham capacidades idênticas em termos de mecânicas de jogo, diferem significativamente na sua apresentação visual e nas animações associadas.
+
+\hspace{2em} A interface de selecção incorpora um sistema de navegação elegante com setas direccionais que permitem alternar suavemente entre as opções disponíveis. Cada personagem é apresentada com uma pré-visualização em tempo real, incluindo uma breve demonstração das suas animações características, permitindo ao jogador tomar uma decisão informada sobre a sua escolha estética.
+
+\hspace{2em} Paralelamente à selecção de personagem, o sistema solicita ao utilizador que introduza o seu nome através de um campo de entrada intuitivo. Esta funcionalidade vai além da mera personalização, constituindo um elemento fundamental para o sistema de classificação e persistência de dados. O nome introduzido será posteriormente utilizado nas tabelas de classificação, permitindo identificação individual e criando um sentido de posse e progressão pessoal.
+
+\hspace{2em} A validação do nome introduzido é realizada em tempo real, com feedback visual imediato para caracteres inválidos ou nomes demasiado longos. O sistema também implementa medidas de sanitização básica para prevenir a introdução de conteúdo inadequado, mantendo a integridade do ambiente de jogo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/character_selection.png}
+    \caption{Selecção de Personagem}
+    \label{fig:2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/gameplay_ui.png}
+    \caption{Interface Durante o Jogo}
+    \label{fig:3}
+\end{figure}
+
+\hspace{2em} A interface durante a sessão de jogo foi meticulosamente desenhada para proporcionar informações críticas sem comprometer a visibilidade da área de jogo principal. Esta abordagem minimalista mas informativa garante que o jogador tem acesso instantâneo a todos os dados relevantes para a tomada de decisões estratégicas, mantendo simultaneamente uma experiência visual limpa e não intrusiva.
+
+\hspace{2em} No canto superior esquerdo encontra-se o cluster informativo principal, composto pela barra de vida (HP) e pela barra de experiência (XP). A barra de vida utiliza um sistema de cores dinâmico que transita gradualmente do verde para o vermelho conforme a saúde diminui, proporcionando feedback visual imediato sobre o estado crítico da personagem. Adicionalmente, a barra implementa efeitos de pulsação quando a vida atinge níveis perigosamente baixos, alertando o jogador para a necessidade de adoptar estratégias defensivas.
+
+\hspace{2em} A barra de experiência, posicionada estrategicamente abaixo da barra de vida, apresenta o progresso actual rumo ao próximo nível através de um sistema de preenchimento gradual. A transição entre níveis é acompanhada por efeitos visuais celebrativos que realçam este marco importante na progressão do jogador. O nível actual é apresentado através de numeração destacada, utilizando tipografia legível e contraste adequado para visualização rápida durante momentos de intensa actividade.
+
+\hspace{2em} O canto superior direito é dedicado ao indicador de pontuação, apresentando o número de eliminações (kills) através de numeração proeminente. Este elemento constitui o indicador primário de desempenho e progresso competitivo, sendo actualizado dinamicamente em tempo real à medida que o jogador elimina adversários. A apresentação visual utiliza animações subtis para realçar incrementos na pontuação, proporcionando satisfação imediata e feedback positivo pelas acções bem-sucedidas.
+
+\hspace{2em} A parte inferior do ecrã alberga a barra de habilidades especiais, um elemento central da estratégia de combate. Este componente apresenta quatro habilidades distintas, cada uma representada por um ícone único e intuitivo que comunica claramente a sua função. Os indicadores de tempo de recarga (cooldown) são apresentados através de sobreposições visuais que se dissipam gradualmente, permitindo ao jogador planear as suas acções com precisão temporal.
+
+\hspace{2em} Cada habilidade possui feedback visual específico quando activada, incluindo destacamento do ícone, efeitos de brilho e confirmação auditiva. O sistema de interface também implementa indicadores de estado para situações especiais, como baixa energia ou impossibilidade de utilização de determinadas habilidades, garantindo que o jogador compreende sempre as suas opções disponíveis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/leaderboard.png}
+    \caption{Tabela de Classificação}
+    \label{fig:4}
+\end{figure}
+
+\hspace{2em} O ecrã de fim de jogo (Game Over) representa o culminar da experiência de jogo, sendo apresentado quando a personagem do jogador é eliminada. Esta interface foi concebida para proporcionar um encerramento satisfatório da sessão, oferecendo tanto retrospectiva do desempenho como perspectivas para sessões futuras.
+
+\hspace{2em} O elemento central desta interface é a tabela de classificação, um sistema robusto que apresenta as dez melhores pontuações registadas localmente. A implementação utiliza a tecnologia LocalStorage do navegador, garantindo persistência de dados entre sessões e proporcionando um sentido de progressão contínua. A tabela é apresentada numa formatação visualmente apelativa, com alternância de cores entre linhas para melhorar a legibilidade.
+
+\hspace{2em} O sistema de classificação implementa um destaque especial para a pontuação da sessão actual, utilizando cor diferenciada e posicionamento proeminente quando esta se qualifica entre as melhores performances. Quando a nova pontuação não atinge o top 10, é apresentada separadamente com contexto da sua posição relativa, mantendo o sentido de conquista e motivação para melhorias futuras.
+
+\hspace{2em} As opções de navegação pós-jogo são apresentadas através de botões claramente identificados que permitem reiniciar imediatamente uma nova sessão ou regressar ao menu principal para alterações de configuração. Esta flexibilidade garante fluidez na experiência de utilizador, especialmente importante em jogos que incentivam múltiplas tentativas para melhoria de pontuação.
+
+\hspace{2em} A persistência de dados é assegurada através de um sistema de armazenamento local que mantém as classificações mesmo após o encerramento do navegador ou computador. Esta funcionalidade é fundamental para criar um sentido de progressão a longo prazo e competitividade saudável, mesmo em contexto de jogador individual.
+
+\newpage
+\subsection{Mecânicas de Jogo}
+\hspace{2em} As mecânicas de jogo foram desenvolvidas com base em princípios estabelecidos dos jogos de acção de perspectiva superior (top-down), adaptando controlos clássicos para uma experiência moderna e responsiva. O sistema de controlos privilegia a simplicidade de aprendizagem sem sacrificar a profundidade estratégica, permitindo tanto a jogadores iniciantes como experientes desfrutarem plenamente da experiência.
+
+\hspace{2em} O esquema de controlos adopta a configuração WASD amplamente reconhecida para movimentação omnidireccional, garantindo familiaridade imediata para a maioria dos jogadores de PC. A resposta dos controlos foi calibrada para proporcionar movimento fluido e preciso, com aceleração e desaceleração naturais que evitam movimentos demasiado bruscos ou imprecisos.
+
+\hspace{2em} O sistema de combate incorpora múltiplas modalidades de ataque que se complementam estrategicamente. Os ataques básicos são executados através de cliques do rato, com direcção determinada pela posição do cursor relativamente à personagem. Esta mecânica intuitiva permite ataques direccionais precisos que recompensam a coordenação óculo-manual e o posicionamento táctico.
+
+\hspace{2em} A progressão do jogador segue um modelo clássico baseado na acumulação de experiência através da eliminação de adversários. Este sistema cria um ciclo de recompensa contínuo onde cada vitória contribui tangívelmente para o crescimento da personagem. À medida que o jogador avança nos níveis, não só as suas capacidades se expandem, como também o ambiente de jogo se adapta dinamicamente, introduzindo adversários progressivamente mais desafiantes e recompensadores.
+
+\hspace{2em} A mecânica de escalamento da dificuldade foi cuidadosamente equilibrada para manter o desafio constante sem criar picos de dificuldade frustrantes. O sistema monitiza continuamente o desempenho do jogador e ajusta a intensidade do jogo de forma a manter um estado de fluxo óptimo, onde o jogador se sente constantemente desafiado mas nunca sobrecarregado.
+
+\subsubsection{Sistema do Jogador}
+\hspace{2em} O sistema do jogador constitui o núcleo central da experiência de jogo, sendo responsável por gerir todos os aspectos relacionados com a personagem controlada pelo utilizador. Esta implementação foi desenvolvida seguindo princípios de programação orientada a objectos, garantindo modularidade, manutenibilidade e extensibilidade do código.
+
+\begin{itemize}
+  \item \textbf{Sistema de Representação Visual} - A personagem do jogador utiliza folhas de sprites (sprite sheets) meticulosamente organizadas para reproduzir animações fluidas e expressivas. Cada estado de animação (movimento, ataque, recepção de dano, morte) foi cuidadosamente sincronizado com as mecânicas de jogo correspondentes. O sistema de animações do Phaser.js é aproveitado na sua totalidade para criar transições suaves entre estados, com interpolação automática que garante fluidez visual mesmo em dispositivos com capacidades de processamento limitadas.
+  
+  \item \textbf{Motor Físico Integrado} - A implementação incorpora um corpo físico completo gerido pelo motor Arcade Physics do Phaser, permitindo detecção precisa de colisões e simulação realista de movimento. O sistema foi calibrado para proporcionar uma sensação de peso e inércia apropriada, evitando movimento excessivamente rígido ou deslizante. As propriedades físicas incluem massa, velocidade máxima, aceleração e fricção, todas ajustadas para criar uma experiência de movimento satisfatória e responsiva.
+  
+  \item \textbf{Sistema de Progressão Avançado} - O mecanismo de experiência e níveis implementa uma curva de progressão cuidadosamente equilibrada que mantém a motivação do jogador ao longo de sessões prolongadas. A experiência é obtida através da eliminação de adversários, com valores variáveis que reflectem a dificuldade e risco associados a cada tipo de inimigo. O sistema inclui marcos de progressão que desbloqueiam novas capacidades e melhoram estatísticas existentes, criando um sentido tangível de crescimento e desenvolvimento da personagem.
+  
+  \item \textbf{Interface de Saúde Dinâmica} - A barra de vida constitui um componente visual crucial que acompanha constantemente a personagem do jogador. Esta implementação vai além de uma simples representação numérica, incorporando feedback visual sofisticado através de sistemas de cores, animações de dano e indicadores de estado crítico. A barra actualiza-se em tempo real e utiliza transições suaves para evitar mudanças visuais bruscas que possam causar confusão durante combates intensos.
+  
+  \item \textbf{Arsenal de Combate Diversificado} - O sistema de combate coordena múltiplas modalidades de ataque, cada uma com características únicas de dano, alcance, velocidade e tempo de recarga. Os projécteis básicos (representados por pedras) constituem o ataque primário, com trajectória calculada dinamicamente baseada na posição do cursor. As habilidades especiais incluem explosões com diferentes padrões de dano e efeitos visuais, criando opções tácticas que recompensam diferentes estilos de jogo.
+  
+  \item \textbf{Sistema de Habilidades Especiais} - A implementação inclui quatro habilidades distintas com mecânicas únicas: explosão básica para dano em área, explosão de duas cores com padrão de dano diferenciado, explosão nuclear de alto impacto, e magnetismo para atracção automática de cristais de experiência. Cada habilidade possui tempo de recarga específico e feedback visual distinto, permitindo ao jogador desenvolver estratégias sofisticadas baseadas na gestão temporal das capacidades disponíveis.
+\end{itemize}
+
+\subsubsection{Sistema de Adversários}
+\hspace{2em} O sistema de adversários representa uma das implementações mais sofisticadas do projecto, desenvolvida através de uma arquitectura orientada a objectos que privilegia a reutilização eficiente de código e a facilidade de manutenção e expansão. Esta abordagem permitiu criar um ecosistema de inimigos diversificado e equilibrado, onde cada tipo de adversário contribui de forma única para a experiência de jogo.
+
+\hspace{2em} A arquitectura baseada numa classe genérica \texttt{Mob} estabelece um conjunto de comportamentos fundamentais que são posteriormente especializados em cada tipo específico de adversário. Esta metodologia garante consistência comportamental entre diferentes tipos de inimigos, ao mesmo tempo que permite personalização detalhada das características únicas de cada um.
+
+\begin{itemize}
+  \item \textbf{Arquitectura de Classe Base} - A classe \texttt{Mob} implementa todos os comportamentos essenciais partilhados por todos os adversários: sistema de movimento direccional com navegação inteligente, mecânicas de ataque com cálculo de distância e temporização, sistema de recepção de dano com feedback visual apropriado, sequências de morte com limpeza automática de recursos, e gestão completa de animações correspondentes a cada estado. Esta abordagem arquitectural garante que novos tipos de adversários podem ser implementados rapidamente sem duplicação de código fundamental.
+  
+  \item \textbf{Diversidade Tipológica} - O jogo apresenta seis tipos distintos de adversários, cada um representando um arquétipo específico de desafio: \textbf{Slime} como adversário básico de introdução com estatísticas equilibradas; \textbf{Skeleton} como unidade ágil com velocidade superior mas resistência reduzida; \textbf{Troll} como adversário resistente com elevada capacidade de absorção de dano; \textbf{Golem} funcionando como tanque com máxima resistência mas velocidade limitada; \textbf{Reaper} oferecendo um equilíbrio entre todas as estatísticas; e \textbf{Dragon} servindo como adversário chefe com capacidades superiores em todos os aspectos.
+  
+  \item \textbf{Sistema de Inteligência Artificial} - Cada adversário implementa um sistema de IA que combina simplicidade computacional com comportamento convincente. O sistema inclui perseguição inteligente do jogador com cálculo de trajectórias óptimas, avaliação contínua de distâncias de ataque para optimização de posicionamento, execução de comportamentos específicos baseados no contexto situacional, e capacidade de navegação que evita obstáculos básicos do ambiente. Esta IA garante que os adversários proporcionam desafio constante sem comportamentos previsíveis ou monótonos.
+  
+  \item \textbf{Gestão Individual de Saúde} - Cada adversário possui o seu próprio sistema de gestão de vida, implementado através de barras de vida individuais que se actualizam dinamicamente conforme o adversário recebe dano. O sistema inclui feedback visual imediato através de animações de impacto, alterações de cor para indicar estado de saúde, e efeitos especiais para momentos críticos como proximidade da morte. Esta implementação permite ao jogador avaliar rapidamente o estado de múltiplos adversários simultaneamente.
+  
+  \item \textbf{Sistema de Animações Completo} - Todos os adversários possuem conjuntos completos de animações para cada estado possível: movimento fluido com ciclos apropriados à velocidade, animações de ataque sincronizadas com o sistema de dano, reacções visuais convincentes ao receber dano, e sequências de morte dramaticamente satisfatórias. Esta atenção ao detalhe visual cria uma experiência coerente e polida que reforça a identidade única de cada tipo de adversário.
+  
+  \item \textbf{Normalização e Escalamento Visual} - Para garantir consistência visual e de gameplay, foi implementado um sistema de normalização automática que escala todos os adversários para dimensões apropriadas independentemente do tamanho original dos seus sprites. Este sistema calcula automaticamente factores de escala que mantêm proporções visuais equilibradas enquanto assegura que as caixas de colisão permanecem precisas e previsíveis para o jogador.
+  
+  \item \textbf{Sistema de Recompensas Balanceado} - Após eliminação, cada adversário gera cristais de experiência com valores cuidadosamente calibrados para reflectir a dificuldade e risco associados ao combate. O sistema implementa variabilidade controlada nas recompensas para evitar progressão excessivamente previsível, incluindo oportunidades ocasionais de recompensas superiores que incentivam combate agressivo e tomada de riscos calculados.
+\end{itemize}
+
+\subsubsection{Sistema de Geração de Adversários}
+\hspace{2em} O sistema de geração de adversários (spawner) constitui um componente fundamental e sofisticado para o controlo dinâmico da dificuldade e manutenção do interesse do jogador ao longo de sessões prolongadas. Este sistema foi concebido para se adaptar inteligentemente ao nível e performance do jogador, introduzindo novos desafios de forma gradual e equilibrada, evitando tanto monotonia como picos de dificuldade frustrantes.
+
+\hspace{2em} A implementação utiliza algoritmos probabilísticos avançados que consideram múltiplos factores na determinação de quando e que tipo de adversário deve ser gerado. Esta abordagem dinâmica garante que cada sessão de jogo oferece uma experiência única e desafiante, mesmo para jogadores que repetem o jogo múltiplas vezes.
+
+\begin{itemize}
+  \item \textbf{Motor de Geração Inteligente} - O sistema implementa um motor sofisticado que coordena a criação de adversários baseado numa análise contínua do estado do jogo, incluindo nível actual do jogador, densidade de adversários presentes, tempo decorrido desde a última geração, e performance recente do jogador. Este motor utiliza algoritmos probabilísticos que garantem variedade na experiência enquanto mantêm progressão equilibrada da dificuldade.
+  
+  \item \textbf{Progressão Escalonada e Balanceada} - A introdução de novos tipos de adversários segue uma curva cuidadosamente calibrada: níveis iniciais (1-2) apresentam exclusivamente Slimes e Skeletons para familiarização com mecânicas básicas; níveis intermédios (3-5) introduzem Trolls como primeiro teste de resistência; níveis avançados (6-8) acrescentam Reapers para desafio equilibrado; níveis experientes (9-12) incluem Golems como teste de persistência; e níveis mestres (13+) permitem o aparecimento de Dragons como adversários supremos. Esta progressão garante que o jogador enfrenta constantemente novos desafios apropriados ao seu nível de competência.
+  
+  \item \textbf{Sistema de Escalonamento Dinâmico} - Todas as estatísticas dos adversários (pontos de vida, capacidade de dano, velocidade de movimento) aumentam proporcionalmente com o nível do jogador através de fórmulas matemáticas cuidadosamente equilibradas. Este escalonamento garante que os adversários mantêm sempre um nível apropriado de desafio, evitando que se tornem demasiado fáceis à medida que o jogador progride. O sistema inclui factores de aleatoriedade controlada para evitar progressão excessivamente previsível.
+  
+  \item \textbf{Validação Posicional Avançada} - Antes de cada geração, o sistema executa verificações rigorosas da validade das posições propostas, consultando camadas de colisão do mapa para evitar que adversários apareçam dentro de obstáculos, verificando proximidade ao jogador para evitar aparições demasiado próximas ou distantes, e garantindo que existe caminho navegável entre a posição de geração e o jogador. Esta validação previne situações frustrantes onde adversários ficam presos ou aparecem em localizações inadequadas.
+  
+  \item \textbf{Gestão Dinâmica de Densidade} - O sistema monitiza continuamente o número de adversários presentes no campo de batalha, ajustando a taxa de geração para manter densidade apropriada que desafia sem sobrecarregar. Esta gestão considera tanto limitações de performance do dispositivo como equilíbrio de gameplay, garantindo que existe sempre pressão suficiente para manter tensão sem criar situações impossíveis de gerir.
+  
+  \item \textbf{Distribuição Probabilística Sofisticada} - A selecção do tipo de adversário a gerar utiliza algoritmos probabilísticos que consideram frequência recente de cada tipo, nível actual do jogador, e objectivos de experiência de jogo. Este sistema garante variedade apropriada enquanto mantém distribuição equilibrada que suporta os objectivos de progressão e aprendizagem do jogador.
+\end{itemize}
+
+\subsubsection{Ambiente e Colisões}
+\hspace{2em} O sistema de ambiente utiliza as capacidades avançadas do Phaser.js para criar um mundo de jogo coeso e interactivo, onde a navegação e as colisões são geridas de forma eficiente e realista.
+
+\begin{itemize}
+  \item \textbf{Sistema de Tilemaps} - Utilização de mapas de tiles para construção eficiente do mundo de jogo, permitindo criação de ambientes complexos com optimização de recursos
+  \item \textbf{Camadas de Colisão} - Implementação de camadas específicas para definir áreas navegáveis, obstáculos intransponíveis e elementos decorativos, criando um ambiente rico e variado
+  \item \textbf{Limites Mundiais} - Definição de fronteiras do mundo que contêm tanto o jogador como os adversários, evitando que saiam da área de jogo definida
+  \item \textbf{Validação de Geração} - Verificação automática de tiles para garantir que adversários não aparecem em obstáculos ou áreas inacessíveis
+  \item \textbf{Detecção de Colisões} - Sistema preciso de detecção de colisões entre todos os elementos do jogo: jogador, adversários, projécteis e ambiente
+\end{itemize}
+
+\subsubsection{Sistema de Classificação}
+\hspace{2em} A implementação de um sistema de classificação robusto garante a persistência e comparação de desempenhos entre sessões de jogo, incentivando a competitividade e rejogar.
+
+\begin{itemize}
+  \item \textbf{Tabela de Classificação} - Sistema completo de ranking que regista e ordena as melhores pontuações, utilizando LocalStorage do navegador para persistência de dados
+  \item \textbf{Registo de Pontuação} - Contabilização automática de eliminações (kills) como métrica principal de desempenho, com actualização em tempo real durante o jogo
+  \item \textbf{Armazenamento Persistente} - Dados guardados localmente no navegador do utilizador, garantindo que as pontuações se mantêm disponíveis entre sessões
+  \item \textbf{Sistema de Ordenação} - Algoritmo que ordena automaticamente as pontuações por ordem decrescente, destacando as melhores performances
+  \item \textbf{Interface de Consulta} - Apresentação visual clara das classificações com identificação dos jogadores e respectivas pontuações
+\end{itemize}
+
+\subsubsection{Gestão de Cenas}
+\hspace{2em} A arquitectura de cenas do Phaser.js é aproveitada para criar transições fluidas e gestão eficiente dos diferentes estados da aplicação.
+
+\begin{itemize}
+  \item \textbf{Gestor de Cenas} - Coordenação de transições entre menu principal, selecção de personagem, sessão de jogo e ecrã final, garantindo fluxo lógico da aplicação
+  \item \textbf{Persistência de Dados} - Transferência segura de informações entre cenas (nome do jogador, personagem seleccionada, pontuação) sem perda de dados
+  \item \textbf{Sistema de Pausa} - Funcionalidade que permite pausar o jogo durante a sessão, congelando todos os elementos dinâmicos e apresentando interface de pausa
+  \item \textbf{Gestão de Estados} - Controlo rigoroso dos estados da aplicação e transições fluidas que melhoram a experiência do utilizador
+\end{itemize}
+
+\subsubsection{Áudio e Efeitos Visuais}
+\hspace{2em} A implementação de elementos audiovisuais enriquece significativamente a experiência de jogo, criando feedback imediato e atmosfera imersiva.
+
+\hspace{2em} O sistema de áudio aproveitava as capacidades nativas do Phaser.js para reprodução de efeitos sonoros contextuais, música de fundo e feedback auditivo para acções do jogador. Os efeitos visuais incluem animações sofisticadas de explosão com múltiplas variantes, sistemas de partículas para cristais de experiência e feedback visual imediato para todas as interacções do jogador.
+
+\hspace{2em} A combinação destes elementos cria uma experiência multissensorial que mantém o jogador envolvido e proporciona feedback claro sobre o estado do jogo e as consequências das suas acções. O sistema é optimizado para funcionar eficientemente em navegadores modernos, garantindo performance estável mesmo durante momentos de maior intensidade visual.
+
+\newpage
+\subsection{Aspectos Técnicos da Implementação}
+\hspace{2em} A implementação técnica do projecto baseou-se numa arquitectura modular e escalável que aproveita as capacidades avançadas da framework Phaser.js versão 3, combinando-a com tecnologias web modernas para criar uma experiência de jogo robusta e performante. A escolha tecnológica privilegiou a compatibilidade multiplataforma, facilidade de distribuição, e capacidade de manutenção a longo prazo.
+
+\subsubsection{Arquitectura de Software}
+\hspace{2em} A estrutura do projecto segue princípios de engenharia de software estabelecidos, organizando o código numa hierarquia lógica que facilita desenvolvimento, depuração e manutenção. A separação de responsabilidades é rigorosamente mantida, com cada componente tendo funções bem definidas e interfaces claras.
+
+\hspace{2em} A arquitectura implementa o padrão Scene-Entity-Component (SEC) adaptado para desenvolvimento web, onde cada cena representa um estado distinto da aplicação, cada entidade representa um objecto do mundo de jogo, e cada componente implementa funcionalidades específicas reutilizáveis.
+
+\begin{itemize}
+  \item \textbf{Gestão de Cenas} - Implementação completa do sistema de cenas do Phaser para organização lógica dos diferentes estados da aplicação (Menu Principal, Selecção de Personagem, Jogo, Game Over), com transições suaves e gestão eficiente de recursos.
+  
+  \item \textbf{Classes Especializadas} - Desenvolvimento de classes específicas para cada tipo de entidade do jogo (Player, Mob, Spawner, HealthBar, SkillBar, Leaderboard), seguindo princípios de herança e polimorfismo para maximizar reutilização de código.
+  
+  \item \textbf{Sistema de Componentes} - Implementação de componentes reutilizáveis para funcionalidades comuns (movimento, animação, colisão, vida), permitindo composição flexível de comportamentos complexos.
+  
+  \item \textbf{Gestão de Recursos} - Sistema eficiente de carregamento e gestão de assets (imagens, animações, sons) com pré-carregamento inteligente e libertação automática de memória.
+\end{itemize}
+
+\subsubsection{Motor Físico e Colisões}
+\hspace{2em} A implementação utiliza o motor Arcade Physics do Phaser.js, optimizado para jogos 2D de acção rápida que requerem detecção de colisões eficiente sem necessidade de simulação física complexa. Este motor foi configurado especificamente para as necessidades do projecto, equilibrando precisão com performance.
+
+\begin{itemize}
+  \item \textbf{Detecção de Colisões} - Sistema de detecção baseado em caixas delimitadoras (bounding boxes) com optimizações para múltiplos objectos simultâneos, incluindo spatial partitioning para reduzir complexidade computacional.
+  
+  \item \textbf{Grupos de Colisão} - Organização eficiente de entidades em grupos lógicos (jogador, adversários, projécteis, colectáveis) com regras de interacção específicas entre grupos.
+  
+  \item \textbf{Resposta a Colisões} - Implementação de callbacks personalizados para diferentes tipos de colisão, permitindo comportamentos específicos (dano, colecta, destruição) baseados no contexto da interacção.
+  
+  \item \textbf{Optimização de Performance} - Utilização de quadtrees para particionamento espacial, reduzindo drasticamente o número de verificações de colisão necessárias em cada frame.
+\end{itemize}
+
+\subsubsection{Sistema de Animações}
+\hspace{2em} O sistema de animações aproveitou integralmente as capacidades avançadas do Phaser.js para criar experiências visuais fluidas e expressivas. A implementação prioritiza eficiência computacional sem comprometer qualidade visual.
+
+\begin{itemize}
+  \item \textbf{Sprite Sheets Optimizadas} - Utilização de folhas de sprites cuidadosamente organizadas para minimizar mudanças de textura e optimizar utilização de memória gráfica.
+  
+  \item \textbf{Sistema de Estados} - Máquina de estados robusta para gestão de transições entre animações, garantindo consistência visual e prevenindo estados inválidos.
+  
+  \item \textbf{Interpolação Temporal} - Implementação de interpolação suave entre frames de animação para manter fluidez visual independentemente da taxa de frames do dispositivo.
+  
+  \item \textbf{Gestão de Memória} - Sistema inteligente de cache de animações que mantém em memória apenas as animações actualmente necessárias, libertando recursos automaticamente.
+\end{itemize}
+
+\subsubsection{Persistência de Dados}
+\hspace{2em} A gestão de dados persistentes utiliza a API LocalStorage do navegador, proporcionando armazenamento local fiável sem necessidade de infraestrutura servidor. Esta abordagem garante privacidade total dos dados do utilizador enquanto mantém funcionalidade offline completa.
+
+\begin{itemize}
+  \item \textbf{Serialização de Dados} - Sistema robusto de serialização/deserialização de objectos JavaScript para armazenamento em formato JSON, com validação automática de integridade.
+  
+  \item \textbf{Gestão de Versões} - Implementação de versionamento de dados que permite migração automática entre diferentes versões da aplicação sem perda de informação.
+  
+  \item \textbf{Tratamento de Erros} - Sistema abrangente de tratamento de erros para situações como quota de armazenamento excedida ou corrupção de dados.
+  
+  \item \textbf{Backup e Recuperação} - Funcionalidades básicas de backup automático e recuperação de dados para proteger contra perda acidental de informação.
+\end{itemize}
+
+\subsubsection{Optimização de Performance}
+\hspace{2em} O projecto implementa múltiplas estratégias de optimização para garantir performance estável em dispositivos com capacidades variadas, desde computadores de alta performance até dispositivos móveis com recursos limitados.
+
+\begin{itemize}
+  \item \textbf{Object Pooling} - Implementação de pools de objectos para entidades frequentemente criadas e destruídas (projécteis, efeitos visuais), eliminando garbage collection desnecessário.
+  
+  \item \textbf{Culling Inteligente} - Sistema que remove objectos fora da área visível do processamento de física e renderização, reduzindo carga computacional.
+  
+  \item \textbf{Degradação Graceful} - Detecção automática de capacidades do dispositivo com ajuste dinâmico de qualidade visual e densidade de efeitos.
+  
+  \item \textbf{Gestão de Memória} - Monitorização contínua de utilização de memória com limpeza automática de recursos não utilizados.
+\end{itemize}

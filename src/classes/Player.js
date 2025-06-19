@@ -265,10 +265,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.play(deathAnimKey);
     this.once(`animationcomplete-${deathAnimKey}`, () => {
       this.disableBody(true, true);
-      this.healthBar.destroy();
-
+      this.healthBar.destroy();      
       if (this.scene.leaderboard && this.scene.playerName) {
         this.scene.leaderboard.addScore(this.scene.playerName, this.kills);
+
+        if (this.scene.fightMusic) {
+          this.scene.fightMusic.stop();
+        }
 
         this.scene.scene.pause('Level');
 
@@ -311,8 +314,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     });
   }
-  collectCrystal(crystal) {
+    collectCrystal(crystal) {
     this.gainXp(crystal.getData("xp") || 10);
+    this.scene.sound.play('EXP');
     crystal.destroy();
   }
 

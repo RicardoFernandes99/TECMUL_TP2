@@ -7,11 +7,14 @@ import Leaderboard from "../classes/Leaderboard.js";
 export default class Level extends Phaser.Scene {
   constructor() {
     super("Level");
-  }
+  }  
   create(data) {
 
     this.selectedCharacter = data.selectedCharacter || 'dude';
     this.playerName = data.playerName || 'Player';
+
+    this.fightMusic = this.sound.add('fight', { loop: true, volume: 0.05 });
+    this.fightMusic.play();
 
     const map = this.make.tilemap({ key: 'level-map' });
     this.map = map;
