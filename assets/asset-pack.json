@@ -2,6 +2,175 @@
     "section1": {
         "files": [
             {
+                "url": "assets/Golem/0_Golem_Dying_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Golem_Dying_000-0"
+            },
+            {
+                "url": "assets/Golem/0_Golem_Hurt_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Golem_Hurt_000-0"
+            },
+            {
+                "url": "assets/Golem/0_Golem_Slashing_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Golem_Slashing_000-0"
+            },
+            {
+                "url": "assets/Golem/0_Golem_Walking_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Golem_Walking_000-0"
+            },
+            {
+                "url": "assets/Reaper/0_Reaper_Man_Dying_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Reaper_Man_Dying_000-0"
+            },
+            {
+                "url": "assets/Reaper/0_Reaper_Man_Hurt_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Reaper_Man_Hurt_000-0"
+            },
+            {
+                "url": "assets/Reaper/0_Reaper_Man_Slashing_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Reaper_Man_Slashing_000-0"
+            },
+            {
+                "url": "assets/Reaper/0_Reaper_Man_Walking_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Reaper_Man_Walking_000-0"
+            },
+            {
+                "url": "assets/Reaper/0_Reaper_Man_Walking_000-0 (1).png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Reaper_Man_Walking_000-0 (1)"
+            },
+            {
+                "url": "assets/Skeleton/0_Skeleton_Crusader_Dying_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Skeleton_Crusader_Dying_000-0"
+            },
+            {
+                "url": "assets/Skeleton/0_Skeleton_Crusader_Hurt_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Skeleton_Crusader_Hurt_000-0"
+            },
+            {
+                "url": "assets/Skeleton/0_Skeleton_Crusader_Slashing_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Skeleton_Crusader_Slashing_000-0"
+            },
+            {
+                "url": "assets/Skeleton/0_Skeleton_Crusader_Walking_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 900,
+                    "frameHeight": 900,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "0_Skeleton_Crusader_Walking_000-0"
+            },
+            {
                 "url": "assets/animations.json",
                 "type": "animation",
                 "key": "animations"
@@ -51,6 +220,71 @@
                 "url": "assets/UI/Damage.png",
                 "type": "image",
                 "key": "Damage"
+            },
+            {
+                "url": "assets/Dragon/Attack1-0.png",
+                "frameConfig": {
+                    "frameWidth": 256,
+                    "frameHeight": 256,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "DragonAttack1-0"
+            },
+            {
+                "url": "assets/Dragon/Death1-0.png",
+                "frameConfig": {
+                    "frameWidth": 256,
+                    "frameHeight": 256,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "DragonDeath1-0"
+            },
+            {
+                "url": "assets/Dragon/Fire_Attack1-0.png",
+                "frameConfig": {
+                    "frameWidth": 128,
+                    "frameHeight": 128,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "DragonFire_Attack1-0"
+            },
+            {
+                "url": "assets/Dragon/Hurt1-0.png",
+                "frameConfig": {
+                    "frameWidth": 256,
+                    "frameHeight": 256,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "DragonHurt1-0"
+            },
+            {
+                "url": "assets/Dragon/Walk1-0.png",
+                "frameConfig": {
+                    "frameWidth": 256,
+                    "frameHeight": 256,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "DragonWalk1-0"
             },
             {
                 "url": "assets/MainMenu/Dude_Monster.png",
@@ -305,6 +539,58 @@
                 "url": "assets/MainMenu/Title.png",
                 "type": "image",
                 "key": "Title"
+            },
+            {
+                "url": "assets/Troll/Troll_01_1_ATTACK_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 1600,
+                    "frameHeight": 1000,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Troll_01_1_ATTACK_000-0"
+            },
+            {
+                "url": "assets/Troll/Troll_01_1_DIE_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 1600,
+                    "frameHeight": 1000,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Troll_01_1_DIE_000-0"
+            },
+            {
+                "url": "assets/Troll/Troll_01_1_HURT_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 1600,
+                    "frameHeight": 1000,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Troll_01_1_HURT_000-0"
+            },
+            {
+                "url": "assets/Troll/Troll_01_1_WALK_000-0.png",
+                "frameConfig": {
+                    "frameWidth": 1600,
+                    "frameHeight": 1000,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Troll_01_1_WALK_000-0"
             }
         ]
     },
